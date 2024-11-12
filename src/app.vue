@@ -19,84 +19,46 @@ export default {
 </script>
 
 <template>
-  <pv-sidebar v-model:visible="sidebarVisible">
-    <template #container="{ closeCallback }" class="side-bar-container">
-      <div class="flex flex-column h-full">
-        <div class="flex align-items-center justify-content-between px-4 pt-3 flex-shrink-0">
-        <span>
-          <pv-button type="button" @click="closeCallback" icon="pi pi-times" rounded outlined class="close-button h-2rem w-2rem"></pv-button>
-        </span>
-        </div>
-        <div class="language-switcher-sidebar">
-          <language-switcher></language-switcher>
-        </div>
-        <div class="sidebar-route-path-link overflow-y-auto">
-          <a @click="closeCallback">
-            <router-link :to="{ path: '/my-account' }" >
-              <i class="pi pi-user"></i>
-              <span class="font-medium" >{{ $t('toolbar.myaccount') }} </span>
-            </router-link>
-          </a>
-          <a @click="closeCallback">
-            <router-link :to="{ path: '/exercises' }" >
-              <i class="pi pi-calendar"></i>
-              <span class="font-medium" >{{ $t('toolbar.rutine') }} </span>
-            </router-link>
-          </a>
-          <a @click="closeCallback">
-            <router-link :to="{ path: '/nutritions' }" >
-              <i class="pi pi-apple"></i>
-              <span class="font-medium">{{ $t('toolbar.nutrition') }} </span>
-            </router-link>
-          </a>
-          <a @click="closeCallback">
-            <router-link :to="{ path: '/products' }" >
-              <i class="pi pi-list"></i>
-              <span class="font-medium">{{ $t('toolbar.products') }} </span>
-            </router-link>
-          </a>
-          <div class="center-content">
-            <authentication-section></authentication-section>
-          </div>
-        </div>
-      </div>
-    </template>
-  </pv-sidebar>
+
   <pv-toolbar class="toolbar-container">
     <template #start>
       <div class="toolbar-content1 flex align-items-center">
         <pv-button class="sidebar-button" icon="pi pi-bars" @click="toggleSidebar"/>
         <img class="logo-toolbar" src="https://github.com/aksoonie/fithub-db/assets/134560396/5b192cd5-6101-4d98-b975-228b48c009c6" alt="logo">
       </div>
+
       <div class="toolbar-content">
+        <!--Secciones de la Aplicacion-->
         <a>
           <router-link :to="{ path: '/my-account' }" >
             <i class="pi pi-user"></i>
-            <span class="font-medium">{{ $t('toolbar.myaccount') }} </span>
+            <span class="font-medium">Mi cuenta</span>
           </router-link>
         </a>
         <a>
+          <!--<router-link :to="{ path: '/shop-management' }" >-->
           <router-link :to="{ path: '/exercises' }" >
-            <i class="pi pi-calendar"></i>
-            <span class="font-medium">{{ $t('toolbar.rutine') }} </span>
+            <i class="pi pi-shopping-cart"></i>
+            <span class="font-medium">Compras</span>
           </router-link>
         </a>
         <a>
+          <!--<router-link :to="{ path: '/recipes-management' }" >-->
           <router-link :to="{ path: '/nutritions' }" >
             <i class="pi pi-apple"></i>
-            <span class="font-medium">{{ $t('toolbar.nutrition') }} </span>
+            <span class="font-medium">Recetas</span>
           </router-link>
         </a>
         <a>
+          <!--<router-link :to="{ path: '/comunity-management' }" >-->
           <router-link :to="{ path: '/products' }" >
-            <i class="pi pi-list"></i>
-            <span class="font-medium">{{ $t('toolbar.products') }} </span>
+            <i class="pi pi-users"></i>
+            <span class="font-medium">Comunidad</span>
           </router-link>
         </a>
+
         <authentication-section></authentication-section>
-        <div class="language-switcher-wrapper">
-          <language-switcher></language-switcher>
-        </div>
+
       </div>
     </template>
   </pv-toolbar>
