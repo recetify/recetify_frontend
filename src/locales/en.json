@@ -7,7 +7,7 @@
   "toolbar": {
     "myaccount": "My account",
     "rutine": "Rutine",
-    "nutrition": "Nutrition",
+    "comunidad": "Comunity",
     "products": "Products",
     "settings": "Settings",
     "statistics": "Statistics",
@@ -44,8 +44,8 @@
     "password": "Password",
     "message": "Are you sure?"
   },
-  "nutrition": {
-    "title": "Nutrition"
+  "comunidad": {
+    "title": "Comunity"
   },
   "rutine": {
     "title": "Rutine"
