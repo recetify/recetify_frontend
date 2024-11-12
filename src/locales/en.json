@@ -1,0 +1,65 @@
+{
+  "page-not-found": {
+    "title": "Error 404",
+    "sub-title": "invalid route",
+    "button": "Back to account"
+  },
+  "toolbar": {
+    "myaccount": "My account",
+    "rutine": "Rutine",
+    "nutrition": "Nutrition",
+    "products": "Products",
+    "settings": "Settings",
+    "statistics": "Statistics",
+    "login": "Log in",
+    "signup": "Sign up"
+  },
+  "login": {
+    "title": "Log in",
+    "description": "Log in to your account",
+    "username": "Username",
+    "password": "Password",
+    "error": "Username or password",
+    "go-to-signup": "Don't have an account?"
+  },
+  "signup": {
+    "title": "Sign up",
+    "description": "Create a new account",
+    "username": "Username",
+    "email": "Email",
+    "birthdate": "Birthdate",
+    "gender": "Gender",
+    "objective": "Objective",
+    "password": "Password",
+    "confirm-password": "Confirm password",
+    "error": "Username already exists",
+    "go-to-login": "Already have an account?"
+  },
+  "my-account": {
+    "title": "My account",
+    "name": "Name",
+    "email": "Email",
+    "birthdate": "Birthdate",
+    "objective": "Objective",
+    "password": "Password",
+    "message": "Are you sure?"
+  },
+  "nutrition": {
+    "title": "Nutrition"
+  },
+  "rutine": {
+    "title": "Rutine"
+  },
+  "product": {
+    "title": "Products",
+    "price": "Price",
+    "description": "Description",
+    "category-select": "Select a category",
+    "disabled": "No available products",
+    "no-filter": "No filter"
+  },
+  "confirmation": {
+    "confirm": "Update",
+    "cancel": "Cancel"
+  }
+}

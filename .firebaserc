@@ -1,0 +1,9 @@
+{
+  "projects": {
+    "fithub-final-deployment": "fithub-final-deployment",
+    "default": "fithub-final-deployment"
+  },
+  "targets": {},
+  "etags": {},
+  "dataconnectEmulatorConfig": {}
+}
