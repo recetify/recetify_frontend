@@ -46,7 +46,7 @@ export default {
           <a @click="closeCallback">
             <router-link :to="{ path: '/nutritions' }" >
               <i class="pi pi-apple"></i>
-              <span class="font-medium">{{ $t('toolbar.nutrition') }} </span>
+              <span class="font-medium">{{ $t('toolbar.comunidad') }} </span>
             </router-link>
           </a>
           <a @click="closeCallback">
@@ -62,6 +62,8 @@ export default {
       </div>
     </template>
   </pv-sidebar>
+
+
   <pv-toolbar class="toolbar-container">
     <template #start>
       <div class="toolbar-content1 flex align-items-center">
@@ -84,7 +86,7 @@ export default {
         <a>
           <router-link :to="{ path: '/nutritions' }" >
             <i class="pi pi-apple"></i>
-            <span class="font-medium">{{ $t('toolbar.nutrition') }} </span>
+            <span class="font-medium">{{ $t('toolbar.comunidad') }} </span>
           </router-link>
         </a>
         <a>
