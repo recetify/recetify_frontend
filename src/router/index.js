@@ -17,6 +17,7 @@ import CartViewComponent from "../shopping/pages/CartView.vue";
 const router = createRouter({
     history: createWebHistory(),
     routes: [
+
         { path: '/my-account', component: accountManagementComponent, meta: { title: 'Mi Cuenta' }, },
         { path: '/exercises', component: ShoppingviuwComponent, meta: { title: 'Compras' }, },
         { path: '/nutritions', component: RecipesManagementComponent, meta: { title: 'Recetas' }, },
@@ -28,6 +29,7 @@ const router = createRouter({
         },
 
         { path: '/products', component: productsCardListComponent, meta: { title: 'Comunidad' }, },
+
         { path: '/sign-in', name: 'sign-in', component: SignInComponent, meta: { title: 'Sign In' } },
         { path: '/sign-up', name: 'sign-up', component: SignUpComponent, meta: { title: 'Sign Up' } },
         { path: '/',  redirect: '/my-account' },

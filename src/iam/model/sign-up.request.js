@@ -1,9 +1,9 @@
 export class SignUpRequest {
-    constructor(username, email, birthdate, objective,password) {
+    constructor(username,password, email,description) {
         this.username = username;
-        this.email = email;
-        this.birthdate = birthdate;
-        this.objective = objective;
         this.password = password;
+        this.email = email;
+        this.description = description;
+
     }
 }

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const http = axios.create({
-    baseURL: 'https://my-json-server.typicode.com/HealthyL/Datos-healty-',
+    baseURL: 'http://localhost:3000',
 });
 export class AccountManagementApiService{
     getDataUsers() {
@@ -12,5 +12,11 @@ export class AccountManagementApiService{
     }
     updateUser(id, data) {
         return http.put(`/users/${id}`, data);
+    }
+    getCurrentUser(id){
+        return http.get(`/users/${id}`);
+    }
+    deleteCurrentUser(id){
+        return http.delete(`/users/${id}`);
     }
 }

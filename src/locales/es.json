@@ -18,7 +18,10 @@
     "title": "Iniciar sesión",
     "description": "Ingresa tus datos",
     "username": "Usuario",
+
+    "useremail": "Correo del usuario",
     "password": "Contraseña",
+
     "error": "Usuario o contraseña incorrectos",
     "go-to-signup": "Already have an account?"
   },
@@ -37,11 +40,14 @@
   },
   "my-account": {
     "title": "Mi cuenta",
-    "name": "Nombre",
-    "email": "Email",
+
+    "name": "Name",
+    "password": "Contraseña",
+    "email": "Correo",
+    "description": "Descripción",
+
     "birthdate": "Fecha de nacimiento",
     "objective": "Objetivo",
-    "password": "Contraseña",
     "message": "Estas seguro?"
   },
   "comunidad": {
@@ -60,6 +66,7 @@
   },
   "confirmation": {
     "confirm": "Actualizar",
-    "cancel": "Cancelar"
+    "cancel": "Cancelar",
+    "delete": "Eliminar"
   }
 }
