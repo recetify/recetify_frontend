@@ -10,21 +10,22 @@ export default {
     return {
       authenticationStore: useAuthenticationStore(),
       authenticationService: null,
-      username: "",
+      email: "",
       password: "",
       objectiveOptions: [],
       objective: null,
-      email: null,
+      username: "",
       birthdate: null,
+      description:"",
     };
   },
   created() {
     this.authenticationService = new AuthenticationService();
-    this.fetchObjectiveOptions();
+    //this.fetchObjectiveOptions();
   },
   methods: {
     onSignUp() {
-      let signUpRequest = new SignUpRequest(this.username, this.email, this.birthdate, this.objective.name,this.password,);
+      let signUpRequest = new SignUpRequest(this.username, this.password, this.email, this.description);
       console.log(signUpRequest);
       this.authenticationStore.signUp(signUpRequest, this.$router);
 
@@ -57,6 +58,13 @@ export default {
           </div>
           <div>
             <pv-float-label>
+              <label class="label-input"  for="password">{{ $t('signup.password') }}</label>
+              <pv-input-text class="input" id="password" v-model="password" :class="{'p-invalid': !password}" type="password"/>
+              <small v-if="!password" class="p-invalid">{{ $t('signup.password') }} is required.</small>
+            </pv-float-label>
+          </div>
+          <div>
+            <pv-float-label>
               <label class="label-input" for="email">{{ $t('signup.email') }}</label>
               <pv-input-text class="input" id="email" v-model="email" :class="{'p-invalid': !email}"/>
               <small v-if="!email" class="p-invalid">{{ $t('signup.email') }} is required.</small>
@@ -64,22 +72,9 @@ export default {
           </div>
           <div>
             <pv-float-label>
-              <label class="label-input" for="birthdate">{{ $t('signup.birthdate') }}</label>
-              <pv-calendar class="input" v-model="birthdate" dateFormat="dd/mm/yy" />
-              <small v-if="!birthdate" class="p-invalid">{{ $t('signup.birthdate') }} is required.</small>
-            </pv-float-label>
-          </div>
-          <div>
-            <pv-float-label>
-              <label class="label-input" for="objective">{{ $t('signup.objective') }}</label>
-              <pv-dropdown class="input" id="objective" v-model="objective" :options="objectiveOptions" optionLabel="name" />
-            </pv-float-label>
-          </div>
-          <div>
-            <pv-float-label>
-              <label class="label-input"  for="password">Password</label>
-              <pv-input-text class="input" id="password" v-model="password" :class="{'p-invalid': !password}" type="password"/>
-              <small v-if="!password" class="p-invalid">Password is required.</small>
+              <label class="label-input"  for="description">Description</label>
+              <pv-input-text class="input" id="description" v-model="description" :class="{'p-invalid': !description}" type="description"/>
+              <small v-if="!description" class="p-invalid">Description is required.</small>
             </pv-float-label>
           </div>
           <div class="registration-question">

@@ -1,36 +1,50 @@
 <script>
 import ConfirmComponent from "@/accountManagement/components/confirm.component.vue";
-import {AccountManagementApiService} from "@/accountManagement/services/accountManagement-api.service.js";
-import {ObjectiveEntity} from "@/accountManagement/model/objective.entity.js";
-import {userEntity} from "@/accountManagement/model/user.entity.js";
+import { AccountManagementApiService } from "@/accountManagement/services/accountManagement-api.service.js";
+import { ObjectiveEntity } from "@/accountManagement/model/objective.entity.js";
+import { userEntity } from "@/accountManagement/model/user.entity.js";
+import { useAuthUserStore } from "@/iam/services/authUser.store.js";
+import router from "@/router/index.js";
+import DeleteComponent from "@/accountManagement/components/delete.component.vue"
 
 export default {
   name: "settings-card",
   title: "Configuration",
   components: {
+    DeleteComponent,
     ConfirmComponent,
+  },
+  setup() {
+    const authUserStore = useAuthUserStore();
+    const userId = authUserStore.getUserId; // Esto es correcto como getter reactivo
+
+    // Comprobar si el userId está disponible antes de devolverlo
+    if (!userId) {
+      console.error("ID de usuario no disponible en setup");
+    }
+
+    return { userId };
   },
   data() {
     return {
       accountManagementApiService: null,
-      objectiveOptions: [],
-      genderOptions: [],
-      username:null,
-      email:null,
-      birthdate:null,
-      objective:null,
-      gender:null,
-      password:null,
+      username: null,
+      password: null,
+      email: null,
+      description: null,
       users: [],
-      userId: null,
       showConfirm: false,
-    }
+      showDelete: false,
+      objectiveOptions: [], // Añadir esta propiedad para almacenar las opciones de objetivos
+    };
   },
   created() {
     this.accountManagementApiService = new AccountManagementApiService();
-    this.fetchObjectiveOptions();
-    this.fetchGenderOptions();
-    this.fetchUserData();
+    if (this.userId) {
+      this.fetchUserData();
+    } else {
+      console.error("ID de usuario no disponible al crear el componente");
+    }
   },
   methods: {
     async fetchObjectiveOptions() {
@@ -41,28 +55,22 @@ export default {
         console.error('Error al obtener los datos', error);
       }
     },
-    async fetchGenderOptions() {
-      try {
-        const response = await this.accountManagementApiService.getGenders();
-        this.genderOptions = response.data.map(gender => new GenderEntity(gender.id, gender.name));
-      } catch (error) {
-        console.error('Error al obtener los datos', error);
-      }
-    },
     async fetchUserData() {
       try {
-        const {data} = await this.accountManagementApiService.getDataUsers();
-        const user = new userEntity(data[0].id, data[0].name, data[0].email, data[0].birthdate, data[0].gender, data[0].objective, data[0].password);
-        if (user) {
-          this.userId = user.id;
-          this.username = user.username;
-          this.email = user.email;
-          this.birthdate = user.birthdate;
-          this.gender = user.gender;
-          this.objective = user.objective;
-          this.password = user.password;
+        // Verifica que userId no esté vacío o nulo
+        if (this.userId) {
+          const { data } = await this.accountManagementApiService.getCurrentUser(this.userId);
+          const user = new userEntity(data.id, data.username, data.password, data.email, data.description);
+          if (user) {
+            this.username = user.username;
+            this.password = user.password;
+            this.email = user.email;
+            this.description = user.description;
+          } else {
+            console.error('Usuario no encontrado');
+          }
         } else {
-          console.error('Usuario no encontrado');
+          console.error('ID de usuario no disponible dentro de fetchUserData');
         }
       } catch (error) {
         console.error('Error al obtener los datos', error);
@@ -71,12 +79,10 @@ export default {
     async updateUser() {
       try {
         const userData = {
-          username : this.username,
-          email : this.email,
-          birthdate : this.birthdate.toISOString().slice(0, 10),
-          gender : this.gender,
-          objective : this.objective,
-          password : this.password
+          username: this.username,
+          password: this.password,
+          email: this.email,
+          description: this.description,
         };
         await this.accountManagementApiService.updateUser(this.userId, userData);
       } catch (error) {
@@ -96,6 +102,26 @@ export default {
         this.editEmail = !this.editEmail;
       }
     },
+    onDeleteConfirm() {
+      this.deleteUser(); // Llama al método para realizar la eliminación
+      this.showDelete = false; // Cierra el modal de confirmación
+    },
+
+    // Método para cancelar la eliminación
+    onDeleteCancel() {
+      this.showDelete = false; // Cierra el modal de confirmación sin hacer nada
+    },
+
+    // Método para eliminar el usuario
+    async deleteUser(router) {
+      if (!this.userId) {
+        console.error('User ID is required to delete the user');
+        router.push({ name: 'sign-in' });
+        return;
+      }
+      // Llamamos al servicio para eliminar el usuario
+      await this.accountManagementApiService.deleteCurrentUser(this.userId);
+    }
   }
 };
 </script>
@@ -109,27 +135,53 @@ export default {
       <div class="personal-info">
         <div class="field">
           <label for="name">{{ $t('my-account.name') }} </label>
-          <pv-input-text class="p-inputtext" id="username" v-model="username"/>
+          <pv-input-text class="p-inputtext" id="username" v-model="username" :placeholder="username ? username : $t('my-account.name')"/>
+        </div>
+        <div class="field">
+          <label for="password">{{ $t('my-account.password') }} </label>
+          <pv-input-text class="p-inputtext" id="password" v-model="password"/>
         </div>
         <div class="field">
           <label for="email">{{ $t('my-account.email') }} </label>
           <pv-input-text class="p-inputtext" id="email" v-model="email"/>
         </div>
         <div class="field">
-          <label for="birthdate">{{ $t('my-account.birthdate') }} </label>
-          <pv-calendar class="p-calendar" id="birthdate" v-model="birthdate" dateFormat="yy-mm-dd"/>
+          <label for="description">{{ $t('my-account.description') }} </label>
+          <pv-input-text class="p-inputtext" id="description" v-model="description"/>
         </div>
-        <div class="field">
-          <label for="objective">{{ $t('my-account.objective') }} </label>
-          <pv-dropdown class="p-dropdown" id="objective" v-model="objective" :options="objectiveOptions" optionLabel="name" :placeholder="objective" />
+        <div class="button-container">
+          <!-- Botón de actualización -->
+          <div class="button-update">
+            <pv-button class="botoncito" @click="showConfirm = true" v-show="!showConfirm">
+              {{$t('confirmation.confirm')}}
+            </pv-button>
+            <ConfirmComponent
+                class="confirmation-update-button"
+                :show="showConfirm"
+                :message="$t('my-account.message')"
+                @confirm="onConfirm"
+                @cancel="onCancel"
+            />
+          </div>
+
+          <!-- Botón de eliminación -->
+          <div class="button-delete">
+            <pv-button class="botoncito-delete" @click="showDelete = true" v-show="!showDelete">
+              {{$t('confirmation.delete')}}
+            </pv-button>
+            <DeleteComponent
+                class="confirmation-delete-button"
+                :show="showDelete"
+                :message="$t('my-account.message')"
+                @confirm="onDeleteConfirm"
+                @cancel="onDeleteCancel"
+            />
+          </div>
         </div>
-      </div>
-      <div class="button-update">
-        <pv-button class="botoncito" @click="showConfirm = true" v-show="!showConfirm">{{$t('confirmation.confirm')}}</pv-button>
-        <ConfirmComponent class="confirmation-update-button" :show="showConfirm" :message="$t('my-account.message')" @confirm="onConfirm" @cancel="onCancel" />
-      </div>
+
     </div>
   </div>
+</div>
 </div>
 </template>
 
@@ -200,9 +252,19 @@ export default {
   justify-content: flex-end;
 }
 
+.button-container {
+  display: flex;
+  justify-content: space-between;  /* Alinea los botones en las esquinas */
+  align-items: center;  /* Alineación vertical de los botones */
+  width: 100%;  /* Hace que el contenedor ocupe todo el ancho disponible */
+  gap: 1em;  /* Espacio entre los botones */
+  position: relative;
+  z-index: 1;  /* Asegura que los botones estén por encima de otros elementos */
+}
+
+/* Estilos para el botón de actualización */
 .botoncito {
-  background-color: #C5D951FF;
-  margin-top:1.5em;
+  background-color: #C5D951FF; /* Verde */
   color: #fff;
   font-size: 18px;
   border: none;
@@ -212,9 +274,49 @@ export default {
 }
 
 .botoncito:hover {
-  background-color: #8BB500D6;
+  background-color: #8BB500D6; /* Verde más oscuro */
   transform: scale(1.1);
 }
+
+/* Estilos para el botón de eliminación */
+.botoncito-delete {
+  background-color: #f44336; /* Rojo */
+  color: #fff;
+  font-size: 18px;
+  border: none;
+  border-radius: 2em;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.botoncito-delete:hover {
+  background-color: #d32f2f; /* Rojo más oscuro */
+  transform: scale(1.1);
+}
+
+.botoncito-delete:hover {
+  background-color: #d32f2f; /* Rojo más oscuro al pasar el mouse */
+  transform: scale(1.1);
+}
+
+/* Estilo para los componentes de confirmación de actualización y eliminación */
+.confirmation-update-button,
+.confirmation-delete-button {
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5em;
+  z-index: 1;  /* Asegura que los botones de confirmación estén encima */
+}
+
+.message {
+  text-align: center;
+}
+
+
 
 /* Media Queries for Responsiveness */
 @media (max-width: 768px) {
@@ -240,10 +342,6 @@ export default {
     font-size: 0.9rem;
   }
 
-  .botoncito {
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-  }
 }
 
 @media (max-width: 480px) {
@@ -267,10 +365,7 @@ export default {
     font-size: 0.9rem;
   }
 
-  .botoncito {
-    padding: 0.5rem;
-    font-size: 0.8rem;
-  }
+
 }
 
 </style>
