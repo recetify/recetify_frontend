@@ -6,15 +6,15 @@ export default {
   name: "sign-in",
   data() {
     return {
-      username: "",
+      email: "",
       password: ""
     };
   },
   methods: {
     onSignIn() {
       let authenticationStore = useAuthenticationStore();
-      let signInRequest = new SignInRequest(this.username, this.password);
-      authenticationStore.signIn(signInRequest, this.$router);
+      let signInRequest = new SignInRequest(this.email, this.password);
+      authenticationStore.verifyUser(signInRequest, this.$router);
     }
   }
 }
@@ -30,9 +30,9 @@ export default {
       <div class="p-fluid">
         <div class="field mt-5">
           <pv-float-label class="p-float-label">
-            <label  class="label-input" for="username">{{ $t('login.username') }}</label>
-            <pv-input-text class="input" id="username" v-model="username" :class="{'p-invalid': !username}"/>
-            <small v-if="!username" class="p-invalid">Username is required.</small>
+            <label  class="label-input" for="useremail">{{ $t('login.useremail') }}</label>
+            <pv-input-text class="input" id="useremail" v-model="email" :class="{'p-invalid': !email}"/>
+            <small v-if="!email" class="p-invalid">email is required.</small>
           </pv-float-label>
         </div>
         <div class="p-field mt-5">

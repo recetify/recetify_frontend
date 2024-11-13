@@ -1,31 +1,35 @@
 <script>
-
 export default {
-  name: "confirm.component",
+  name: "delete.component",
   props: ['show', 'message'],
   methods: {
     onConfirm() {
-      this.$emit('confirm');
+      this.$emit('confirm'); // Emitir confirmación para eliminar
     },
     onCancel() {
-      this.$emit('cancel');
+      this.$emit('cancel'); // Emitir cancelación
     }
   }
 }
 </script>
 
 <template>
-  <div v-if="show" class="confirm">
+  <div v-if="show" class="delete-confirm">
     <p class="message">{{ message }}</p>
-    <pv-button class="confirmation-button" @click="onConfirm">{{$t('confirmation.confirm')}}</pv-button>
-    <pv-button class="cancel-button" @click="onCancel">{{$t('confirmation.cancel')}}</pv-button>
+    <pv-button class="confirmation-button" @click="onConfirm">{{ $t('confirmation.delete') }}</pv-button>
+    <pv-button class="cancel-button" @click="onCancel">{{ $t('confirmation.cancel') }}</pv-button>
   </div>
 </template>
 
 <style>
-.message{
+.message {
   text-align: center;
+  font-size: 18px;
+  margin-bottom: 1em;
+  color: #333;
 }
+
+/* Botón de eliminación */
 .confirmation-button {
   background-color: #C5D951FF; /* Verde */
   color: #fff;
@@ -55,7 +59,5 @@ export default {
   background-color: #7e1313;
   transform: scale(1.1);
 }
-
-
 
 </style>

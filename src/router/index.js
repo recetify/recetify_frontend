@@ -14,7 +14,7 @@ import {authenticationGuard} from "@/iam/services/authentication.guard.js";
 const router = createRouter({
     history: createWebHistory(),
     routes: [
-        { path: '/my-account', component: accountManagementComponent, meta: { title: 'Account Management' }, },
+        { path: '/my-account',name:'my-account', component: accountManagementComponent, meta: { title: 'Account Management' }, },
         { path: '/exercises', component: exercisesCardListComponent, meta: { title: 'Exercise Card List' }, },
         { path: '/nutritions', component: nutritionsCardListComponent, meta: { title: 'Nutrition Card List' }, },
         { path: '/products', component: productsCardListComponent, meta: { title: 'Products Card List' }, },

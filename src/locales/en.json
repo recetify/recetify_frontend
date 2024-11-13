@@ -18,14 +18,17 @@
     "title": "Log in",
     "description": "Log in to your account",
     "username": "Username",
+
+    "useremail": "User Email",
     "password": "Password",
+
     "error": "Username or password",
     "go-to-signup": "Don't have an account?"
   },
   "signup": {
     "title": "Sign up",
     "description": "Create a new account",
-    "username": "Username",
+    "username": "User Name",
     "email": "Email",
     "birthdate": "Birthdate",
     "gender": "Gender",
@@ -37,11 +40,14 @@
   },
   "my-account": {
     "title": "My account",
+
     "name": "Name",
+    "password": "Password",
     "email": "Email",
+    "description": "Description",
+
     "birthdate": "Birthdate",
     "objective": "Objective",
-    "password": "Password",
     "message": "Are you sure?"
   },
   "comunidad": {
@@ -60,6 +66,7 @@
   },
   "confirmation": {
     "confirm": "Update",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "delete": "Delete"
   }
 }

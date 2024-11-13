@@ -1,6 +1,6 @@
 export class SignInRequest {
-    constructor(username, password) {
-        this.username = username;
+    constructor(email, password) {
+        this.email = email;
         this.password = password;
     }
 }
