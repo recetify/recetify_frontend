@@ -493,5 +493,97 @@
       "name": "Nutri Fit Plan",
       "description": "Combina lo mejor de ambos mundos, planes de entrenamiento personalizados, y asesoramiento experto sobre nutrición, recetas saludables y seguimiento de progreso integral para lograr resultados óptimos."
     }
+  ],
+  "recipes": [
+    {
+      "id": 1,
+      "title": "Yogur con pera, plátano y frutos secos",
+      "description": "Es un alimento rico en nutrientes.",
+      "ingredients": "Plátano, Yogur, Pera y chía",
+      "image": "src/imagenes/img.png"
+    },
+    {
+      "id": 2,
+      "title": "Pancakes de frutas",
+      "description": "Un desayuno delicioso y saludable.",
+      "ingredients": "Harina, Huevos, Leche, Frutas",
+      "image": "src/imagenes/img_1.png"
+    },
+    {
+      "id": 3,
+      "title": "Ensalada de quinoa con aguacate y tomate",
+      "description": "Una receta fresca y saludable.",
+      "ingredients": "Quinoa, Aguacate, Tomate, Limón, Aceite de oliva",
+      "image": "src/imagenes/img_2.png"
+    },
+    {
+      "id": 4,
+      "title": "Smoothie verde de espinacas y manzana",
+      "description": "Una bebida energética llena de vitaminas.",
+      "ingredients": "Espinacas, Manzana, Plátano, Jengibre, Leche de almendra",
+      "image": "src/imagenes/img_3.png"
+    },
+    {
+      "id": 5,
+      "title": "Tortilla de patatas",
+      "description": "Un clásico de la gastronomía española.",
+      "ingredients": "Huevos, Patatas, Cebolla, Aceite de oliva",
+      "image": "src/imagenes/img_4.png"
+    },
+    {
+      "id": 6,
+      "title": "Pizza margarita casera",
+      "description": "Una pizza sencilla con tomate, mozzarella y albahaca.",
+      "ingredients": "Harina, Tomate, Mozzarella, Albahaca, Aceite de oliva",
+      "image": "src/imagenes/img_5.png"
+    },
+    {
+      "id": 7,
+      "title": "Tacos de pollo al estilo mexicano",
+      "description": "Tacos sabrosos con pollo y salsa picante.",
+      "ingredients": "Pollo, Tortillas, Cebolla, Cilantro, Limón, Salsa picante",
+      "image": "src/imagenes/img_6.png"
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "name": "Zanahoria",
+      "price": 3,
+      "category": "vegetales",
+      "image": "src/imagenes/img_7.png"
+    },
+    {
+      "id": 2,
+      "name": "Papa",
+      "price": 3,
+      "category": "vegetales",
+      "image": "src/imagenes/img_8.png"
+    },
+    {
+      "id": 3,
+      "name": "Tomate",
+      "price": 3,
+      "category": "vegetales",
+      "image": "src/imagenes/img_9.png"
+    },
+    {
+      "id": 4,
+      "name": "Lechuga",
+      "price": 3,
+      "category": "vegetales",
+      "image": "src/imagenes/img_10.png"
+    },
+    {
+      "id": 5,
+      "name": "Carne Dura",
+      "price": 5,
+      "category": "carnes",
+      "image": "src/imagenes/img_11.png"
+    }
+
+  ],
+  "cart": [
+
   ]
 }
