@@ -9,17 +9,27 @@ import nutritionsCardListComponent from "@/nutritionManagement/pages/nutritions-
 import SignInComponent from "@/iam/pages/sign-in.component.vue";
 import SignUpComponent from "@/iam/pages/sign-up.component.vue";
 import {authenticationGuard} from "@/iam/services/authentication.guard.js";
+import RecipesManagementComponent from "../recipes/pages/recipes-management.component.vue";
+import ShoppingviuwComponent from "../shopping/pages/shoppingviuw.component.vue";
+import CartViewComponent from "../shopping/pages/CartView.vue";
 
-
+//Rutas de las seccions de la Apliacion
 const router = createRouter({
     history: createWebHistory(),
     routes: [
-        { path: '/my-account',name:'my-account', component: accountManagementComponent, meta: { title: 'Account Management' }, },
-        { path: '/exercises', component: exercisesCardListComponent, meta: { title: 'Exercise Card List' }, },
-        { path: '/nutritions', component: nutritionsCardListComponent, meta: { title: 'Nutrition Card List' }, },
-        { path: '/products', component: productsCardListComponent, meta: { title: 'Products Card List' }, },
-        { path: '/subscription-management', component: subscriptionManagementComponent, meta: { title: 'Subscription Management' } },
-        { path: '/payment-gateway', component: paymentGatewayComponent, meta: { title: 'Payment Gateway' } },
+
+        { path: '/my-account', component: accountManagementComponent, meta: { title: 'Mi Cuenta' }, },
+        { path: '/exercises', component: ShoppingviuwComponent, meta: { title: 'Compras' }, },
+        { path: '/nutritions', component: RecipesManagementComponent, meta: { title: 'Recetas' }, },
+        {
+            path: '/cart',
+            name: 'Cart',
+            component: CartViewComponent,
+            meta: { title: 'Carrito', requiresAuth: false }
+        },
+
+        { path: '/products', component: productsCardListComponent, meta: { title: 'Comunidad' }, },
+
         { path: '/sign-in', name: 'sign-in', component: SignInComponent, meta: { title: 'Sign In' } },
         { path: '/sign-up', name: 'sign-up', component: SignUpComponent, meta: { title: 'Sign Up' } },
         { path: '/',  redirect: '/my-account' },
