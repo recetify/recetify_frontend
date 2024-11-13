@@ -98,7 +98,7 @@ export default {
 
 /* Botón de Quitar */
 .remove-button {
-  background-color: #e57373; /* Color de eliminación */
+  background-color: #e57373;
 }
 
 .product-button:hover {

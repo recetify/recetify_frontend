@@ -56,18 +56,18 @@ export default {
 
 
 <style scoped>
-/* Contenedor de productos en formato de grid con 4 tarjetas por fila */
+
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 columnas por fila */
-  gap: 1.5rem; /* Espacio entre las tarjetas */
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
   padding: 1rem;
-  /* Añadimos media queries para que el diseño se ajuste en pantallas más pequeñas */
+
 }
 
 /* Ajuste del tamaño de las tarjetas */
 .product-grid .product-card {
-  width: 100%; /* Asegura que cada tarjeta ocupe el ancho de su columna */
+  width: 100%;
   height: auto;
   display: flex;
   flex-direction: column;
@@ -79,19 +79,19 @@ export default {
 }
 
 .product-grid .product-card img {
-  width: 100%; /* Asegura que las imágenes llenen el ancho de la tarjeta */
+  width: 100%;
   height: auto;
   object-fit: cover;
 }
 
 .product-grid .product-card:hover {
-  transform: scale(1.05); /* Efecto de hover para agrandar ligeramente la tarjeta */
+  transform: scale(1.05);
 }
 
-/* Ajuste para el botón de carrito en la esquina superior derecha, respetando el toolbar */
+
 .cart-icon-button {
   position: fixed;
-  top: 90px; /* Ajusta la distancia para evitar que se superponga con el toolbar */
+  top: 90px;
   right: 20px;
   background-color: #4CAF50;
   color: white;
@@ -112,36 +112,36 @@ export default {
   background-color: #45a049;
 }
 
-/* Media Queries para hacer el diseño responsive */
+
 @media (max-width: 1200px) {
   .cart-icon-button {
-    top: 85px; /* Ajuste en pantallas medianas */
+    top: 85px;
   }
   .product-grid {
-    grid-template-columns: repeat(3, 1fr); /* 3 columnas en pantallas medianas */
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media (max-width: 900px) {
   .cart-icon-button {
-    top: 80px; /* Ajuste en pantallas más pequeñas */
+    top: 80px;
     right: 15px;
   }
   .product-grid {
-    grid-template-columns: repeat(2, 1fr); /* 2 columnas en pantallas más pequeñas */
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 600px) {
   .cart-icon-button {
-    top: 75px; /* Ajuste en pantallas móviles */
+    top: 75px;
     right: 10px;
     width: 45px;
     height: 45px;
     font-size: 20px;
   }
   .product-grid {
-    grid-template-columns: 1fr; /* 1 columna en pantallas móviles */
+    grid-template-columns: 1fr;
   }
 }
 </style>

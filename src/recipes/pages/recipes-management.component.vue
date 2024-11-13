@@ -1,17 +1,17 @@
 <script>
-import { Recipe } from '../model/recipes.entity.js';  // Asegúrate de que la ruta sea correcta
-import { RecipeService } from '../services/recipes.service.js';  // Asegúrate de que la ruta sea correcta
+import { Recipe } from '../model/recipes.entity.js';
+import { RecipeService } from '../services/recipes.service.js';
 
 export default {
   name: 'Recipes',
   data() {
     return {
       searchQuery: '',
-      recipes: []  // Inicializamos el array vacío para las recetas
+      recipes: []
     };
   },
   created() {
-    this.fetchRecipes();  // Llamamos al método para cargar las recetas cuando el componente se crea
+    this.fetchRecipes();
   },
   computed: {
     filteredRecipes() {
@@ -21,7 +21,7 @@ export default {
     }
   },
   methods: {
-    // Método para cargar las recetas desde el servicio
+
     fetchRecipes() {
       const recipeService = new RecipeService();  // Instanciamos el servicio
       recipeService.getAll().then(response => {

@@ -70,7 +70,7 @@ export default {
   padding: 20px;
 }
 .back-button {
-  background-color: #4CAF50; /* Color azul */
+  background-color: #4CAF50;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -80,7 +80,7 @@ export default {
   transition: background-color 0.3s;
 }
 .back-button:hover {
-  background-color: #388E3C; /* Color azul oscuro al pasar el cursor */
+  background-color: #388E3C;
 }
 .product-grid {
   display: flex;
@@ -100,7 +100,7 @@ export default {
   transition: background-color 0.3s;
 }
 .pay-button:hover {
-  background-color: #388E3C; /* Color verde oscuro al pasar el cursor */
+  background-color: #388E3C;
 }
 
 /* Estilos del Modal */
