@@ -5,12 +5,9 @@ const http = axios.create({
 });
 export class AuthenticationService {
 
-
-
     signIn(signInRequest) {
         return http.post('/authentication/sign-in/', signInRequest);
     }
-
     getAll(){
         return http.get('/all-users');
     }

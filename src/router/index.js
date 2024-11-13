@@ -18,7 +18,7 @@ const router = createRouter({
     history: createWebHistory(),
     routes: [
 
-        { path: '/my-account', component: accountManagementComponent, meta: { title: 'Mi Cuenta' }, },
+        { path: '/my-account',name:'my-account', component: accountManagementComponent, meta: { title: 'Mi Cuenta' }, },
         { path: '/exercises', component: ShoppingviuwComponent, meta: { title: 'Compras' }, },
         { path: '/nutritions', component: RecipesManagementComponent, meta: { title: 'Recetas' }, },
         {
