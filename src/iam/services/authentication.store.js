@@ -18,16 +18,12 @@ export const useAuthenticationStore = defineStore( {
     actions: {
         async signIn(signInRequest, router) {
             try {
-                console.log('state1', signInRequest);
                 const response = await authenticationService.signIn(signInRequest);
-                console.log('state2', signInRequest);
                 let signInResponse = new SignInResponse(response.data.id, response.data.userEmail, response.data.token);
                 this.signedIn = true;
                 this.userId = signInResponse.id;
                 this.userEmail = signInResponse.userEmail;
-                console.log('state3', signInRequest);
-                localStorage.setItem('token', signInResponse.token);
-                console.log(signInResponse);
+                localStorage.setItem('userId', signInResponse.id); // Almacenar userId en localStorage
                 router.push({name: 'my-account'});
             } catch (error) {
                 router.push({name: 'sign-in'});
@@ -52,6 +48,9 @@ export const useAuthenticationStore = defineStore( {
                     // Guardar el ID del usuario en el store
                     const authUserStore = useAuthUserStore();
                     authUserStore.setUserId(user._id); // Aquí usamos `user.id` directamente
+
+                    localStorage.setItem('userId', user._id); // Almacenar userId en localStorage
+
                     console.log(user._id)
                     // Redirigir a la página de cuenta
                     router.push({ name: 'my-account' });
@@ -68,6 +67,9 @@ export const useAuthenticationStore = defineStore( {
             authenticationService.signUp(signUpRequest)
                 .then(response => {
                     let signUpResponse = new SignUpResponse(response.data.message);
+
+                    localStorage.setItem('userId', response.data.id); // Almacenar userId en localStorage
+
                     console.log(signUpResponse.message);
                     router.push({name: 'sign-in'});
                     console.log(signUpResponse);
