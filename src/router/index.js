@@ -12,12 +12,14 @@ import {authenticationGuard} from "@/iam/services/authentication.guard.js";
 import RecipesManagementComponent from "../recipes/pages/recipes-management.component.vue";
 import ShoppingviuwComponent from "../shopping/pages/shoppingviuw.component.vue";
 import CartViewComponent from "../shopping/pages/CartView.vue";
+import comunityCardListComponent from "@/comunityUsersManagement/pages/comunity-card-list.component.vue";
 
 //Rutas de las seccions de la Apliacion
 const router = createRouter({
     history: createWebHistory(),
     routes: [
-        { path: '/my-account', component: accountManagementComponent, meta: { title: 'Mi Cuenta' }, },
+
+        { path: '/my-account',name:'my-account', component: accountManagementComponent, meta: { title: 'Mi Cuenta' }, },
         { path: '/exercises', component: ShoppingviuwComponent, meta: { title: 'Compras' }, },
         { path: '/nutritions', component: RecipesManagementComponent, meta: { title: 'Recetas' }, },
         {
@@ -27,7 +29,8 @@ const router = createRouter({
             meta: { title: 'Carrito', requiresAuth: false }
         },
 
-        { path: '/products', component: productsCardListComponent, meta: { title: 'Comunidad' }, },
+        { path: '/products', component: comunityCardListComponent, meta: { title: 'Comunidad' }, },
+
         { path: '/sign-in', name: 'sign-in', component: SignInComponent, meta: { title: 'Sign In' } },
         { path: '/sign-up', name: 'sign-up', component: SignUpComponent, meta: { title: 'Sign Up' } },
         { path: '/',  redirect: '/my-account' },
