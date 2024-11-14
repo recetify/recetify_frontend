@@ -1,43 +1,75 @@
 <!-- Comunity Card List -->
+
 <script>
 import ComunityCard from "@/comunityUsersManagement/components/comunity-card.component.vue";
 import { ComunityManagementApiService } from "@/comunityUsersManagement/services/comunityManagement-api.service";
 import { publicationEntity } from "@/comunityUsersManagement/model/publication";
-import { commentEntity } from "@/comunityUsersManagement/model/comment"; // Import commentEntity
+import { commentEntity } from "@/comunityUsersManagement/model/comment";
 import { AuthenticationService } from "@/iam/services/authentication.service";
 
 export default {
   name: "comunity-card-list",
-  components: { ComunityCard },
+  components: {ComunityCard},
   data() {
     return {
       showAddPublication: false,
       newPublication: {
+        title: "",
         description: "",
         photo_url: ""
       },
       publications: [],
       service: new ComunityManagementApiService(),
       authService: new AuthenticationService(),
-      userId: null
+      userId: null,
+      showMyPublications: false
     };
   },
   created() {
-    this.fetchPublications();
     this.fetchUserId();
+    this.fetchAllPublications();
   },
   methods: {
-    fetchPublications() {
+    fetchAllPublications() {
       this.service.getPublications().then(publications => {
-        this.service.getComments().then(comments => {
-          this.publications = publications.map(publication => {
-            return {
-              ...publication,
-              commentsVisible: false,
-              comments: comments.filter(comment => comment.publication_id === publication.id)
-            };
+        if (Array.isArray(publications)) {
+          this.service.getComments().then(comments => {
+            this.publications = publications.map(publication => {
+              return {
+                ...publication,
+                commentsVisible: false,
+                comments: comments.filter(comment => comment.publication_id === publication.id)
+              };
+            });
           });
-        });
+        } else {
+          console.error("Expected an array of publications");
+        }
+      }).catch(error => {
+        console.error("Error fetching publications:", error);
+      });
+    },
+    fetchMyPublications() {
+      if (!this.userId) {
+        console.error("User ID not found");
+        return;
+      }
+      this.service.getPublicationByUserId(this.userId).then(publications => {
+        if (Array.isArray(publications)) {
+          this.service.getComments().then(comments => {
+            this.publications = publications.map(publication => {
+              return {
+                ...publication,
+                commentsVisible: false,
+                comments: comments.filter(comment => comment.publication_id === publication.id)
+              };
+            });
+          });
+        } else {
+          console.error("Expected an array of publications");
+        }
+      }).catch(error => {
+        console.error("Error fetching publications:", error);
       });
     },
     fetchUserId() {
@@ -56,6 +88,7 @@ export default {
       const newPublication = new publicationEntity(
           '',
           0,
+          this.newPublication.title,
           this.newPublication.description,
           this.newPublication.photo_url,
           this.userId
@@ -63,10 +96,26 @@ export default {
       this.service.createPublication(newPublication).then(publication => {
         this.publications.push(publication);
         this.showAddPublication = false;
+        this.newPublication.title = "";
         this.newPublication.description = "";
         this.newPublication.photo_url = "";
       }).catch(error => {
-        console.error("Error adding publication:", error);
+        console.error("Error adding publication:", error.response ? error.response.data : error.message);
+      });
+    },
+    deletePublication(publication) {
+      if (!this.userId) {
+        console.error("User ID not found");
+        return;
+      }
+      if (publication.user_id !== this.userId) {
+        console.error("Cannot delete publication: not the owner");
+        return;
+      }
+      this.service.deletePublication(publication.id).then(() => {
+        this.publications = this.publications.filter(p => p.id !== publication.id);
+      }).catch(error => {
+        console.error("Error deleting publication:", error.response ? error.response.data : error.message);
       });
     },
     toggleComments(publication) {
@@ -83,27 +132,55 @@ export default {
       }
       const newComment = new commentEntity(
           '',
-          comment,
+          comment.description, // Usar la descripción del comentario pasado
           this.userId,
           publication.id
       );
       this.service.createComment(newComment).then(createdComment => {
         if (!publication.comments) {
-          publication.comments = []; // Ensure comments array is initialized
+          publication.comments = [];
         }
-        publication.comments.push(createdComment.description);
+        publication.comments.push(createdComment); // Añadir el comentario creado a la lista
       }).catch(error => {
         console.error("Error adding comment:", error);
       });
     },
+    showMyPublicationsView() {
+      this.showMyPublications = true;
+      this.fetchMyPublications();
+    },
+    showAllPublicationsView() {
+      this.showMyPublications = false;
+      this.fetchAllPublications();
+    },
+    refreshPage() {
+      window.location.reload();
+    },
+    updateCalification(publication, newCalification) {
+      publication.calification = newCalification;
+      this.service.updatePublication(publication).catch(error => {
+        console.error("Error updating calification:", error);
+      });
+    }
   }
 };
 </script>
+
 <template>
   <h1 class="tittle">Comunidad</h1>
   <pv-divider class="divider"></pv-divider>
+  <div class="description-container">
+    <p class="description">Comparte tus recetas favoritas con la comunidad y descubre nuevas recetas para probar.</p>
+    <pv-button label="Haz una receta!" class="button-agregar" @click="showAddPublication = true">
+      <i class="pi pi-plus"></i>
+    </pv-button>
+  </div>
+  <div class="view-buttons">
+    <pv-button label="Mis Recetas" class="button-view" @click="showMyPublicationsView"/>
+    <pv-button label="Todas las Recetas" class="button-view" @click="showAllPublicationsView"/>
+    <i class="fas fa-sync-alt refresh-icon" @click="refreshPage"></i>
+  </div>
   <div class="add-container">
-    <pv-button label="Haz una receta!" class="button-agregar" @click="showAddPublication = true" />
     <div class="publications-list-container">
       <comunity-card
           v-for="publication in publications"
@@ -113,12 +190,15 @@ export default {
           :photo_url="publication.photo_url"
           :commentsVisible="publication.commentsVisible"
           :comments="publication.comments"
+          :isMyPublication="publication.user_id === userId"
+          :calification="publication.calification"
           @toggle-comments="toggleComments(publication)"
           @add-comment="addComment(publication, $event)"
+          @delete-publication="deletePublication(publication)"
+          @update-calification="updateCalification(publication, $event)"
       />
     </div>
   </div>
-  <!-- Modal para agregar-->
   <div v-if="showAddPublication" class="modal">
     <div class="modal-content">
       <h2>Publica una receta</h2>
@@ -133,7 +213,7 @@ export default {
         </div>
         <div class="form-group">
           <label for="photo_url">URL de la Foto</label>
-          <input v-model="newPublication.photoUrl" type="url" id="photo_url" required>
+          <input v-model="newPublication.photo_url" type="url" id="photo_url" required>
         </div>
         <div class="form-actions">
           <pv-button type="submit" class="add-button">Agregar</pv-button>
@@ -149,28 +229,94 @@ export default {
   text-align: center;
   font-size: 2em;
   margin-top: 1em;
+  color: #7E8940;
+  font-family: Nunito, sans-serif;
 }
+
+.description-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.description {
+  text-align: center;
+  font-size: 1.2em;
+  color: #7E8940;
+  font-family: Nunito, sans-serif;
+}
+
 .divider {
   margin-top: 1em;
 }
-.add-container {
+
+.view-buttons {
+  font-family: Nunito, sans-serif;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
-.button-agregar {
+
+.button-view {
+  font-family: Nunito, sans-serif;
   background-color: #7E8940;
   color: white;
   border-radius: 2em;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
-  margin-top: 1em;
 }
+
+.button-view:hover {
+  background-color: #606a2c;
+  transform: scale(1.1);
+}
+
+.refresh-icon {
+  font-size: 1.5rem;
+  color: #7E8940;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.refresh-icon:hover {
+  color: #c5d951;
+}
+
+.add-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.button-agregar {
+  background-color: #ae4c4c;
+  color: white;
+  border-radius: 2em;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.button-agregar i {
+  font-size: 1.2rem;
+}
+
+.button-agregar:hover {
+  background-color: #FF8A65;
+  transform: scale(1.1);
+}
+
 .publications-list-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
+
 .modal {
   position: fixed;
   top: 0;
@@ -182,23 +328,28 @@ export default {
   justify-content: center;
   align-items: center;
 }
+
 .modal-content {
   background: white;
   padding: 2em;
   border-radius: 10px;
   width: 500px;
 }
+
 .form-group {
   margin-bottom: 1em;
 }
+
 .form-group label {
   display: block;
   margin-bottom: 0.5em;
 }
+
 .form-group input, .form-group textarea, .form-group select {
   width: 100%;
   padding: 0.5em;
 }
+
 .form-actions {
   display: flex;
   justify-content: flex-end;
@@ -224,63 +375,4 @@ export default {
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
-
-.card-icons i {
-  font-size: 1.5rem;
-  color: #7E8940;
-  cursor: pointer;
-  transition: color 0.3s;
-}
-
-.card-icons i:hover {
-  color: #c5d951;
-}
-
-.comments-section h3 {
-  cursor: pointer;
-  color: #7E8940;
-  margin-bottom: 0.5rem;
-}
-
-.comments-section ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.comments-section li {
-  background: #fff;
-  margin: 0.5rem 0;
-  padding: 0.5rem;
-  border-radius: 5px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-}
-
-.comments-section input {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-top: 0.5rem;
-}
-
-.comments-section input:focus {
-  outline: none;
-  border-color: #7E8940;
-}
-
-.comments-section input::placeholder {
-  color: #ccc;
-}
-
-.comments-section input[type="submit"] {
-  background-color: #7E8940;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
 </style>
