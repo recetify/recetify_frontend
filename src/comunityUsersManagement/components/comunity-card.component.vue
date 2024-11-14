@@ -1,7 +1,9 @@
 <!--- Componente que representa una TARJETA publicación de la comunidad --->
 <script>
+import StarRating from "@/comunityUsersManagement/components/star-rating.component.vue";
 export default {
   name: "comunity-card",
+  components: { StarRating },
   props: {
     title: {
       type: String,
@@ -22,12 +24,25 @@ export default {
     comments: {
       type: Array,
       required: true
+    },
+    isMyPublication: {
+      type: Boolean,
+      required: true
+    },
+    calification: {
+      type: Number,
+      required: true
     }
   },
   data() {
     return {
-      newComment: "" // Add newComment data property
+      newComment: ""
     };
+  },
+  computed: {
+    commentCount() {
+      return this.comments ? this.comments.length : 0;
+    }
   },
   methods: {
     toggleComments() {
@@ -35,14 +50,23 @@ export default {
     },
     addComment() {
       if (this.newComment.trim()) {
-        this.$emit("add-comment", this.newComment);
-        this.newComment = "";
+        const newComment = {
+          description: this.newComment,
+          createdAt: new Date().toISOString(), // Añadir la fecha actual
+        };
+        this.$emit("add-comment", newComment);
+        this.newComment = ""; // Limpiar el campo de comentario después de agregarlo
       }
+    },
+    deletePublication() {
+      this.$emit("delete-publication");
+    },
+    updateCalification(newCalification) {
+      this.$emit("update-calification", newCalification);
     }
   }
 };
 </script>
-
 <template>
   <pv-card class="custom-card">
     <template #content>
@@ -53,23 +77,33 @@ export default {
         <div class="card-details">
           <h2 class="card-title">{{ title }}</h2>
           <p class="card-description">{{ description }}</p>
+          <star-rating :calification="calification" @update-calification="updateCalification"></star-rating>
           <div class="card-icons">
-            <i class="pi pi-heart"></i>
             <i class="pi pi-comment" @click="toggleComments"></i>
+            <span class="comment-count">{{ commentCount }}</span>
+            <i class="pi pi-trash" @click="deletePublication" v-if="isMyPublication"></i>
           </div>
         </div>
       </div>
       <div v-if="commentsVisible" class="comments-section">
         <h3>Comments</h3>
-        <ul>
-          <li v-for="comment in comments" :key="comment.id">{{ comment.description }}</li>
+        <ul class="comments-list">
+          <li v-for="comment in comments" :key="comment.id" class="comment-item">
+            <div class="comment-header">
+              <strong>{{ comment.user_name }}</strong>
+              <span class="comment-date">{{ new Date(comment.createdAt).toLocaleDateString() }}</span>
+            </div>
+            <p class="comment-text">{{ comment.description }}</p>
+          </li>
         </ul>
-        <input v-model="newComment" @keyup.enter="addComment" placeholder="Add a comment"/>
+        <div class="comment-input-container">
+          <input v-model="newComment" @keyup.enter="addComment" placeholder="Agrega un comentario" class="comment-input"/>
+          <button @click="addComment" class="comment-submit-button">Submit</button>
+        </div>
       </div>
     </template>
   </pv-card>
 </template>
-
 <style scoped>
 .custom-card {
   width: 100%;
@@ -78,26 +112,32 @@ export default {
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.custom-card:hover {
+  transform: scale(1.02);
 }
 
 .card-content {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
 .image-container {
-  flex: 1;
+  width: 100%;
+  height: 200px;
   overflow: hidden;
 }
 
 .card-image {
   width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: cover;
 }
 
 .card-details {
-  flex: 2;
+  font-family: Nunito, sans-serif;
   padding: 1rem;
   display: flex;
   flex-direction: column;
@@ -105,6 +145,7 @@ export default {
 }
 
 .card-title {
+  font-family: Nunito, sans-serif;
   font-size: 1.5rem;
   margin: 0;
   color: #333;
@@ -120,6 +161,7 @@ export default {
   display: flex;
   justify-content: flex-start;
   gap: 1rem;
+  align-items: center;
 }
 
 .card-icons i {
@@ -133,32 +175,82 @@ export default {
   color: #c5d951;
 }
 
+.comment-count {
+  font-family: Nunito, sans-serif;
+  font-size: 1rem;
+  color: #666;
+}
+
 .comments-section {
+  font-family: Nunito, sans-serif;
   margin-top: 1rem;
+  background: #f9f9f9;
+  padding: 1rem;
+  border-radius: 10px;
 }
 
 .comments-section h3 {
-  cursor: pointer;
   color: #7E8940;
+  margin-bottom: 1rem;
 }
 
-.comments-section ul {
+.comments-list {
   list-style-type: none;
   padding: 0;
+  margin: 0;
+  max-height: 200px;
+  overflow-y: auto;
 }
 
-.comments-section li {
-  background: #f5f5f5;
+.comment-item {
+  background: #fff;
   margin: 0.5rem 0;
   padding: 0.5rem;
   border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.comments-section input {
-  width: 100%;
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.comment-text {
+  margin: 0;
+  color: #333;
+}
+
+.comment-input-container {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.comment-input {
+  flex: 1;
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 5px;
-  margin-top: 0.5rem;
+}
+
+.comment-submit-button {
+  padding: 0.5rem 1rem;
+  background-color: #7E8940;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.comment-submit-button:hover {
+  background-color: #606a2c;
+}
+
+@media (max-width: 768px) {
+  .card-content {
+    flex-direction: column;
+  }
 }
 </style>

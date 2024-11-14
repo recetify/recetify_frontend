@@ -29,7 +29,7 @@ const router = createRouter({
             meta: { title: 'Carrito', requiresAuth: false }
         },
 
-        { path: '/products', component: comunityCardListComponent, meta: { title: 'Comunidad' }, },
+        { path: '/comunity', component: comunityCardListComponent, meta: { title: 'Comunidad' }, },
 
         { path: '/sign-in', name: 'sign-in', component: SignInComponent, meta: { title: 'Sign In' } },
         { path: '/sign-up', name: 'sign-up', component: SignUpComponent, meta: { title: 'Sign Up' } },
@@ -40,7 +40,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    let baseTitle = 'FitHub';
+    let baseTitle = 'Recetify';
     document.title = `${ baseTitle } | ${to.meta["title"]}`;
     authenticationGuard(to, from, next);
 });

@@ -10,7 +10,7 @@ export const authenticationGuard = (to, from, next) => {
         '/my-account',
         '/exercises',
         '/nutritions',
-        '/products',
+        '/comunity',
         '/cart' // Agregamos /cart como ruta pública
     ];
     const routeRequiresToBeAuthenticated = !publicRoutes.includes(to.path);
