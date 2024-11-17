@@ -154,7 +154,11 @@ export default {
       this.fetchAllPublications();
     },
     refreshPage() {
-      window.location.reload();
+      if (this.showMyPublications) {
+        this.fetchMyPublications();
+      } else {
+        this.fetchAllPublications();
+      }
     },
     updateCalification(publication, newCalification) {
       publication.calification = newCalification;
@@ -201,7 +205,7 @@ export default {
   </div>
   <div v-if="showAddPublication" class="modal">
     <div class="modal-content">
-      <h2>Publica una receta</h2>
+      <h2>Publica tu experiencia!</h2>
       <form @submit.prevent="addPublication">
         <div class="form-group">
           <label for="title">Título</label>
@@ -241,6 +245,13 @@ export default {
   margin-bottom: 1rem;
 }
 
+.form-group{
+  font-family: Nunito, sans-serif;
+}
+
+h2{
+  font-family: Nunito, sans-serif;
+}
 .description {
   text-align: center;
   font-size: 1.2em;
@@ -348,6 +359,7 @@ export default {
 .form-group input, .form-group textarea, .form-group select {
   width: 100%;
   padding: 0.5em;
+  cursor: pointer;
 }
 
 .form-actions {
