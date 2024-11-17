@@ -7,14 +7,40 @@ export default {
   data() {
     return {
       email: "",
-      password: ""
+      password: "",
+      errorMessage: "", // Variable para manejar el mensaje de error
     };
   },
   methods: {
-    onSignIn() {
-      let authenticationStore = useAuthenticationStore();
-      let signInRequest = new SignInRequest(this.email, this.password);
-      authenticationStore.verifyUser(signInRequest, this.$router);
+    async onSignIn() {
+      // Limpiar mensaje de error antes de intentar el inicio de sesión
+      this.errorMessage = "";
+
+      // Validar que el correo y la contraseña no estén vacíos
+      if (!this.email || !this.password) {
+        this.errorMessage = "Both fields are required!";
+        return;
+      }
+
+      // Validar formato del correo electrónico
+      const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+      if (!emailPattern.test(this.email)) {
+        this.errorMessage = "Invalid email format!";
+        return;
+      }
+
+      try {
+        const authenticationStore = useAuthenticationStore();
+        const signInRequest = new SignInRequest(this.email, this.password);
+
+        // Intentar verificar al usuario
+        await authenticationStore.verifyUser(signInRequest, this.$router);
+
+      } catch (error) {
+        // Manejo de errores en caso de fallo en la verificación
+        this.errorMessage = "Invalid credentials or server error. Please try again.";
+        console.error("Error during sign-in:", error);
+      }
     }
   }
 }

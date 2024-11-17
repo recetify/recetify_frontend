@@ -8,7 +8,10 @@ const authenticationService = new AuthenticationService();
 
 export const useAuthenticationStore = defineStore( {
     id: 'authentication',
-    state: () => ({signedIn: false, userId: 0, userEmail: ''}),
+    state: () => ({
+        isAuthenticated: false, // Variable para almacenar si el usuario está autenticado
+        token: null, // El token de sesión o cualquier otra información relevante
+    }),
     getters: {
         isSignedIn: (state) => state["signedIn"],
         currentUserId: state => state["userId"],
@@ -47,12 +50,23 @@ export const useAuthenticationStore = defineStore( {
                 );
 
                 if (user) {
+                    useAuthenticationStore().isAuthenticated=true;
                     console.log("User verified successfully!");
+                    // Generar un token real o usar uno ficticio
+                    this.token = 'fake-token'; // Reemplazar con un token real si es necesario
 
-                    // Guardar el ID del usuario en el store
+                    // Guardar el token en localStorage para persistencia
+                    localStorage.setItem('token', this.token);
+
+                    // Guardar el ID y email del usuario en el store
+                    this.userId = user._id;
+                    this.userEmail = user.email;
+
+                    // Usar el store de AuthUser para guardar más información si es necesario
                     const authUserStore = useAuthUserStore();
-                    authUserStore.setUserId(user._id); // Aquí usamos `user.id` directamente
-                    console.log(user._id)
+                    authUserStore.setUserId(user._id); // Guardar el ID de usuario en otro store si lo necesitas
+                    console.log("User ID:", user._id);
+                    console.log("isAuthenticated:", useAuthenticationStore().isAuthenticated);
                     // Redirigir a la página de cuenta
                     router.push({ name: 'my-account' });
                 } else {
@@ -62,6 +76,11 @@ export const useAuthenticationStore = defineStore( {
             } catch (error) {
                 console.error("Error verifying user:", error);
             }
+        },
+        logout() {
+            // Lógica para cerrar sesión
+            useAuthenticationStore().isAuthenticated = false;
+            this.token = null;
         },
         //CREAR USUARIO AL REGISTRARSE
         async signUp(signUpRequest, router) {

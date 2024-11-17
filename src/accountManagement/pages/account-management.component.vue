@@ -6,7 +6,8 @@ import { userEntity } from "@/accountManagement/model/user.entity.js";
 import { useAuthUserStore } from "@/iam/services/authUser.store.js";
 import router from "@/router/index.js";
 import DeleteComponent from "@/accountManagement/components/delete.component.vue"
-
+import {useAuthenticationStore} from "@/iam/services/authentication.store.js";
+import {useRouter} from "vue-router";
 export default {
   name: "settings-card",
   title: "Configuration",
@@ -15,6 +16,8 @@ export default {
     ConfirmComponent,
   },
   setup() {
+    const router = useRouter();
+
     const authUserStore = useAuthUserStore();
     const userId = authUserStore.getUserId; // Esto es correcto como getter reactivo
 
@@ -113,14 +116,32 @@ export default {
     },
 
     // Método para eliminar el usuario
-    async deleteUser(router) {
+    async deleteUser() {
+
+      const authenticationStore = useAuthenticationStore(); // Accede al store de autenticación
       if (!this.userId) {
         console.error('User ID is required to delete the user');
-        router.push({ name: 'sign-in' });
         return;
       }
       // Llamamos al servicio para eliminar el usuario
+      console.log(router);
       await this.accountManagementApiService.deleteCurrentUser(this.userId);
+      await authenticationStore.logout();
+      await useRouter().push({name: 'sign-in'});
+    },
+    async logout() {
+      const router = useRouter(); // Accede al router dentro del método
+      const authenticationStore = useAuthenticationStore(); // Accede al store de autenticación
+
+      try {
+        // Llamar al método logout desde el store de autenticación
+        await authenticationStore.logout(); // Asegúrate de que logout esté en tu store
+        // Redirigir al usuario a la página de inicio de sesión después de cerrar sesión
+        await useRouter().push({ name: 'sign-in' });
+      } catch (error) {
+        console.log(authenticationStore.isAuthenticated)
+        console.error('Error al cerrar sesión:', error);
+      }
     }
   }
 };
@@ -178,7 +199,11 @@ export default {
             />
           </div>
         </div>
-
+        <!-- Botón de Logout -->
+        <div>
+          <!-- Botón para cerrar sesión -->
+          <button @click="logout">Cerrar sesión</button>
+        </div>
     </div>
   </div>
 </div>

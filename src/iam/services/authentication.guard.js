@@ -1,12 +1,11 @@
 import {useAuthenticationStore} from "./authentication.store.js";
 
 export const authenticationGuard = (to, from, next) => {
-    const isAuthenticated = !!localStorage.getItem('authToken'); // Revisa si hay un token
-
-    if (isAuthenticated) {
-        next(); // Continúa si está autenticado
+    const authenticationStore = useAuthenticationStore();
+    if (authenticationStore.isAuthenticated) {
+        next(); // Si el usuario está autenticado, proceder a la ruta solicitada
     } else {
-        next({ name: 'sign-in' }); // Redirige a la página de inicio de sesión
+        next({ name: 'sign-in' }); // Si no, redirigir al inicio de sesión
     }
 };
 
