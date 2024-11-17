@@ -127,17 +127,16 @@ export default {
       console.log(router);
       await this.accountManagementApiService.deleteCurrentUser(this.userId);
       await authenticationStore.logout();
-      await useRouter().push({name: 'sign-in'});
+      await router.push({name: 'sign-in'});
     },
     async logout() {
-      const router = useRouter(); // Accede al router dentro del método
       const authenticationStore = useAuthenticationStore(); // Accede al store de autenticación
 
       try {
         // Llamar al método logout desde el store de autenticación
         await authenticationStore.logout(); // Asegúrate de que logout esté en tu store
         // Redirigir al usuario a la página de inicio de sesión después de cerrar sesión
-        await useRouter().push({ name: 'sign-in' });
+        await router.push({ name: 'sign-in' });
       } catch (error) {
         console.log(authenticationStore.isAuthenticated)
         console.error('Error al cerrar sesión:', error);
