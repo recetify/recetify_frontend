@@ -153,12 +153,14 @@ export default {
   text-align: center;
   background-color: #f0f5e9;
   padding: 2rem;
+  font-family: Nunito, sans-serif;
 }
 
 .title {
   color: #666633;
   font-size: 2rem;
   margin-bottom: 1rem;
+  font-family: Nunito, sans-serif;
 }
 
 .search-bar {
@@ -166,6 +168,7 @@ export default {
   justify-content: center;
   align-items: center;
   margin-bottom: 2rem;
+  font-family: Nunito, sans-serif;
 }
 
 .search-bar input {
@@ -174,6 +177,7 @@ export default {
   border: 1px solid #ccc;
   border-radius: 0.5rem;
   margin-right: 0.5rem;
+  font-family: Nunito, sans-serif;
 }
 
 .pi-search {
@@ -190,20 +194,24 @@ export default {
   cursor: pointer;
   transition: all 0.3s ease;
   margin: 0.5rem;
+  font-family: Nunito, sans-serif;
 }
 
 .add-recipe-button {
   background-color: white;
   color: white;
+  font-family: Nunito, sans-serif;
 }
 
 .add-recipe-button:hover {
   background-color: #5a5a2d;
+  font-family: Nunito, sans-serif;
 }
 
 /* Nuevos efectos para el botón Añadir receta */
 .add-recipe-button {
   padding: 1em 2em;
+  font-family: Nunito, sans-serif;
   border: none;
   border-radius: 5px;
   font-weight: bold;
@@ -228,6 +236,7 @@ export default {
 .add-recipe-button::before {
   content: "";
   position: absolute;
+  font-family: Nunito, sans-serif;
   left: -50px;
   top: 0;
   width: 0;
@@ -264,6 +273,7 @@ export default {
   --color: #ff9800;
   color: var(--color);
   border-color: var(--color);
+  font-family: Nunito, sans-serif;
 }
 
 .edit-button::before {

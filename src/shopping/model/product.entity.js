@@ -1,12 +1,12 @@
 // product.entity.js
 export class Product {
-    constructor({ id = '', name = '', price = 0, categoryId = '', categoryName = '', image = '', shoppingCartId = '' }) {
+    constructor({ id = '', name = '', price = 0, category_id = '', categoryName = '', photo_url = '', shoppingCartId = '' }) {
         this.id = id;
         this.name = name;
         this.price = price;
-        this.categoryId = categoryId;
+        this.category_id = category_id;
         this.categoryName = categoryName;
-        this.image = image;
+        this.photo_url = photo_url;
         this.shoppingCartId = shoppingCartId;
     }
 }

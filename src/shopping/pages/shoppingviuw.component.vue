@@ -1,6 +1,6 @@
 <template>
   <div class="shopping-view">
-    <h1>Compras</h1>
+    <h1 class="title">Compras</h1>
     <CategoryFilter @categorySelected="filterProducts" />
     <div class="product-grid">
       <ProductCard
@@ -29,6 +29,7 @@ export default {
     return {
       products: [],
       filteredProducts: [],
+      categories: [],
       cart: {
         user_id: `user_${Math.random().toString(36).substr(2, 9)}_${Date.now()}`,
         items: [],
@@ -38,24 +39,42 @@ export default {
     };
   },
   async created() {
-    this.products = await this.productService.getAll();
-    this.filteredProducts = this.products;
-
-    console.log("Productos obtenidos:", this.products);
+    await this.fetchCategories();
+    await this.fetchProducts();
   },
   methods: {
-    async filterProducts(categoryName) {
-      this.filteredProducts = categoryName
-          ? await this.productService.findByCategory(categoryName)
-          : this.products;
+    async fetchCategories() {
+      try {
+        const response = await axios.get('http://localhost:3000/all-categories');
+        this.categories = response.data;
+      } catch (error) {
+        console.error("Error al obtener las categorías:", error);
+      }
     },
+    async fetchProducts() {
+      this.products = await this.productService.getAll();
+      this.products.forEach(product => {
+        const category = this.categories.find(cat => cat._id === product.category_id);
+        if (category) {
+          product.categoryName = category.name;
+        }
+      });
+      this.filteredProducts = this.products;
+      console.log("Productos obtenidos:", this.products);
+    },
+    async filterProducts(categoryName) {
+      console.log("Filtrando productos por categoría:", categoryName);
+      this.filteredProducts = categoryName
+          ? this.products.filter(product => product.categoryName === categoryName)
+          : this.products;
+      console.log("Productos filtrados:", this.filteredProducts);
+    },
+
     async addToCart(product) {
       console.log("Producto recibido AÑA:", product);
 
-      // Clonar el objeto product para evitar problemas con Proxy
       const productClone = { ...product };
 
-      // Generar un id único si el producto no tiene uno
       if (!productClone.id) {
         productClone.id = `product_${Math.random().toString(36).substr(2, 9)}_${Date.now()}`;
         console.log("ID generado para el producto:", productClone.id);
@@ -65,10 +84,13 @@ export default {
         user_id: this.cart.user_id,
         product_id: productClone.id,
         quantity: 1,
-        price: productClone.price
+        price: productClone.price,
+        photo_url: productClone.photo_url // Añadir la URL de la foto
       };
 
-      if (!cartItem.user_id || !cartItem.product_id || !cartItem.quantity || !cartItem.price) {
+      console.log("Objeto cartItem a enviar:", cartItem);
+
+      if (!cartItem.user_id || !cartItem.product_id || !cartItem.quantity || !cartItem.price || !cartItem.photo_url) {
         console.error("Faltan datos requeridos en cartItem:", cartItem);
         return;
       }
@@ -90,6 +112,9 @@ export default {
 };
 </script>
 <style scoped>
+.title {
+  font-family: Nunito, sans-serif;
+}
 .product-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -102,6 +127,7 @@ export default {
   height: auto;
   display: flex;
   flex-direction: column;
+  font-family: Nunito, sans-serif;
   background-color: white;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   border: 1px solid #ddd;
