@@ -4,7 +4,7 @@ import AuthenticationSection from "@/iam/components/authentication-sector.vue";
 export default {
   name: "app",
   components: {AuthenticationSection, LanguageSwitcher},
-  title: "FitHub",
+  title: "Recetify",
   data() {
     return {
       sidebarVisible: false

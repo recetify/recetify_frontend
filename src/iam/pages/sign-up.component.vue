@@ -95,10 +95,10 @@ export default {
 
 <style scoped>
 .container {
-  margin-top: 3em;
+  margin-top: 1em;
   display: flex;
   justify-content: center;
-  height: 100vh;
+  font-family: Nunito, sans-serif;
   align-items: center;
 }
 .signup {

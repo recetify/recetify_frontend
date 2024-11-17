@@ -213,6 +213,7 @@ export default {
 .titulo-account {
   margin-left: 3em;
   color: #c5d951;
+  font-family: Nunito, sans-serif;
 }
 .divider {
   margin: auto auto 3em;
@@ -223,6 +224,7 @@ export default {
   flex-direction: column;
   align-items: center;
   padding: 0 1rem;
+  font-family: Nunito, sans-serif;
 }
 
 .profile-section {
