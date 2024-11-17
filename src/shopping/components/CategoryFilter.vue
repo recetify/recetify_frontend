@@ -8,28 +8,43 @@
         class="filter-select"
     >
       <option value="">Buscar categorías...</option>
-      <option value="vegetales">Vegetales</option>
-      <option value="carnes">Carnes</option>
-      <option value="frutas">Frutas</option>
-      <option value="especias">Especias</option>
+      <option v-for="category in categories" :key="category._id" :value="category.name">
+        {{ category.name }}
+      </option>
     </select>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
-      selectedCategory: ""
+      selectedCategory: "",
+      categories: []
     };
   },
   methods: {
+    async fetchCategories() {
+      try {
+        const response = await axios.get('http://localhost:3000/all-categories');
+        this.categories = response.data;
+      } catch (error) {
+        console.error("Error al obtener las categorías:", error);
+      }
+    },
     filterCategory() {
       this.$emit("categorySelected", this.selectedCategory);
     }
+  },
+  created() {
+    this.fetchCategories();
   }
 };
 </script>
+
+
 
 <style scoped>
 .category-filter {

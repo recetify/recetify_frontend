@@ -20,6 +20,7 @@
 import CategoryFilter from "../components/CategoryFilter.vue";
 import ProductCard from "../components/ProductCard.vue";
 import { ProductService } from "../services/product.service";
+import axios from "axios";
 import "@fortawesome/fontawesome-free/css/all.css";
 
 export default {
@@ -28,24 +29,59 @@ export default {
     return {
       products: [],
       filteredProducts: [],
+      cart: {
+        user_id: `user_${Math.random().toString(36).substr(2, 9)}_${Date.now()}`,
+        items: [],
+        total_price: 0
+      },
       productService: new ProductService()
     };
   },
   async created() {
     this.products = await this.productService.getAll();
     this.filteredProducts = this.products;
+
+    console.log("Productos obtenidos:", this.products);
   },
   methods: {
-    async filterProducts(category) {
-      this.filteredProducts = category
-          ? await this.productService.findByCategory(category)
+    async filterProducts(categoryName) {
+      this.filteredProducts = categoryName
+          ? await this.productService.findByCategory(categoryName)
           : this.products;
     },
-    addToCart(product) {
-      let cart = JSON.parse(localStorage.getItem("cart") || "[]");
-      cart.push(product);
-      localStorage.setItem("cart", JSON.stringify(cart));
-      alert(`${product.name} añadido al carrito`);
+    async addToCart(product) {
+      console.log("Producto recibido AÑA:", product);
+
+      // Clonar el objeto product para evitar problemas con Proxy
+      const productClone = { ...product };
+
+      // Generar un id único si el producto no tiene uno
+      if (!productClone.id) {
+        productClone.id = `product_${Math.random().toString(36).substr(2, 9)}_${Date.now()}`;
+        console.log("ID generado para el producto:", productClone.id);
+      }
+
+      const cartItem = {
+        user_id: this.cart.user_id,
+        product_id: productClone.id,
+        quantity: 1,
+        price: productClone.price
+      };
+
+      if (!cartItem.user_id || !cartItem.product_id || !cartItem.quantity || !cartItem.price) {
+        console.error("Faltan datos requeridos en cartItem:", cartItem);
+        return;
+      }
+
+      try {
+        const response = await axios.post("http://localhost:3000/shopping-carts", cartItem);
+        console.log("Respuesta del servidor:", response.data);
+        this.cart.items.push(response.data.items[response.data.items.length - 1]);
+        localStorage.setItem("cart", JSON.stringify(this.cart));
+        localStorage.setItem("user_id", this.cart.user_id);
+      } catch (error) {
+        console.error("Error al añadir al carrito:", error.response ? error.response.data : error);
+      }
     },
     goToCart() {
       this.$router.push("/cart");
@@ -53,29 +89,30 @@ export default {
   }
 };
 </script>
-
-
 <style scoped>
-
 .product-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
   padding: 1rem;
-
 }
 
-/* Ajuste del tamaño de las tarjetas */
 .product-grid .product-card {
   width: 100%;
   height: auto;
   display: flex;
   flex-direction: column;
   background-color: white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid #ddd;
   border-radius: 8px;
   overflow: hidden;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-grid .product-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .product-grid .product-card img {
@@ -84,9 +121,6 @@ export default {
   object-fit: cover;
 }
 
-.product-grid .product-card:hover {
-  transform: scale(1.05);
-}
 
 
 .cart-icon-button {
@@ -111,7 +145,6 @@ export default {
 .cart-icon-button:hover {
   background-color: #45a049;
 }
-
 
 @media (max-width: 1200px) {
   .cart-icon-button {
