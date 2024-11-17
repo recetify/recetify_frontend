@@ -1,26 +1,15 @@
 import {useAuthenticationStore} from "./authentication.store.js";
 
 export const authenticationGuard = (to, from, next) => {
-    const authenticationStore = useAuthenticationStore();
-    const isAnonymous = !authenticationStore.isSignedIn;
-    const publicRoutes = [
-        '/sign-in',
-        '/sign-up',
-        '/page-not-found',
-        '/my-account',
-        '/exercises',
-        '/nutritions',
-        '/products',
-        '/cart' // Agregamos /cart como ruta pública
-    ];
-    const routeRequiresToBeAuthenticated = !publicRoutes.includes(to.path);
+    const isAuthenticated = !!localStorage.getItem('authToken'); // Revisa si hay un token
 
-    if (isAnonymous && routeRequiresToBeAuthenticated) {
-        return next({name: 'sign-in'});
+    if (isAuthenticated) {
+        next(); // Continúa si está autenticado
     } else {
-        next();
+        next({ name: 'sign-in' }); // Redirige a la página de inicio de sesión
     }
 };
+
 
 /*
 export const authenticationGuard = (to, from, next) => {

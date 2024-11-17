@@ -139,7 +139,7 @@ export default {
         </div>
         <div class="field">
           <label for="password">{{ $t('my-account.password') }} </label>
-          <pv-input-text class="p-inputtext" id="password" v-model="password"/>
+          <pv-input-text class="p-inputtext" id="password" v-model="password" type="password"/>
         </div>
         <div class="field">
           <label for="email">{{ $t('my-account.email') }} </label>
