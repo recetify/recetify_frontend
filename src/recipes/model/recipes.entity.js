@@ -1,10 +1,17 @@
-// fabric.entity.js
 export class Recipe {
-    constructor({ id = '', title = '', description = '', ingredients = '', image = '' }) {
-        this.id = id;
+    constructor({
+                    _id = null,
+                    title = '',
+                    description = '',
+                    author = '',
+                    photo_url = '',
+                    severity = ''
+                }) {
+        this._id = _id;
         this.title = title;
         this.description = description;
-        this.ingredients = ingredients;
-        this.image = image;
+        this.author = author;
+        this.photo_url = photo_url;
+        this.severity = severity;
     }
 }

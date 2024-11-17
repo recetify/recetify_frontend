@@ -1,36 +1,32 @@
-// recipe.service.js
 import http from "../../shared/services/http-common.js";
 
 export class RecipeService {
-    resourceEndpoint = '/recipes'; // Endpoint para las recetas
+    resourceEndpoint = 'http://localhost:3000/recipes'; // Endpoint base para las recetas
 
     // Obtener todas las recetas
     getAll() {
-        return http.get(this.resourceEndpoint);
+        return http.get('/all-recipes'); // Esta URL ya apunta correctamente al endpoint "/recipes"
     }
 
-    // Obtener una receta por su ID
-    getById(id) {
-        return http.get(`${this.resourceEndpoint}/${id}`);
+    // Obtener una receta por su _id
+    getById(_id) {
+        return http.get(`http://localhost:3000/recipes/${_id}`); // Aquí estamos usando el ID de la receta
     }
 
     // Crear una nueva receta
     create(recipeResource) {
-        return http.post(this.resourceEndpoint, recipeResource);
+        return http.post(this.resourceEndpoint, recipeResource); // Aquí se usa el mismo endpoint para crear recetas
     }
 
     // Actualizar una receta existente
-    update(id, recipeResource) {
-        return http.put(`${this.resourceEndpoint}/${id}`, recipeResource);
+    update(_id, recipeResource) {
+        return http.put(`http://localhost:3000/recipes/${_id}`, recipeResource); // Aquí se usa el ID para actualizar
     }
 
-    // Eliminar una receta por ID
-    delete(id) {
-        return http.delete(`${this.resourceEndpoint}/${id}`);
+    // Eliminar una receta
+    delete(_id) {
+        return http.delete(`http://localhost:3000/recipes/${_id}`); // El endpoint es específico para eliminar una receta por ID
     }
 
-    // Buscar recetas por el título
-    findByTitle(title) {
-        return http.get(`${this.resourceEndpoint}?title=${title}`);
-    }
+
 }
