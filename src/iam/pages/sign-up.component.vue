@@ -79,7 +79,7 @@ export default {
           </div>
           <div class="registration-question">
             <a>
-              <router-link style="text-decoration: none !important;" :to="{ path: '/login' }">
+              <router-link style="text-decoration: none !important;" :to="{ path: '/sign-in' }">
                 <span class="route-to-registration">{{ $t('signup.go-to-login') }}</span>
               </router-link>
             </a>
