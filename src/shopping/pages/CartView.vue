@@ -6,7 +6,8 @@
         <path d="M19 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H19v-2z"/>
       </svg>
       Volver
-    </button>    <h2 class="cart-title">Carrito de Compras</h2>
+    </button>
+    <h2 class="cart-title">Carrito de Compras</h2>
 
     <!-- Productos en el carrito -->
     <div v-if="cart.items && cart.items.length" class="product-list">
@@ -75,9 +76,14 @@ export default {
         console.error("Error al obtener el carrito:", error.response ? error.response.data : error);
       }
     },
-    removeFromCart(product) {
-      this.cart.items = this.cart.items.filter(item => item.product_id !== product.product_id);
-      localStorage.setItem("cart", JSON.stringify(this.cart));
+    async removeFromCart(product) {
+      try {
+        await axios.delete(`http://localhost:3000/shopping-carts/user/${this.user_id}/product/${product.product_id}`);
+        this.cart.items = this.cart.items.filter(item => item.product_id !== product.product_id);
+        localStorage.setItem("cart", JSON.stringify(this.cart));
+      } catch (error) {
+        console.error("Error al eliminar el producto del carrito:", error.response ? error.response.data : error);
+      }
     },
     async checkout() {
       // Simular el éxito de la compra sin añadir a la base de datos
@@ -97,7 +103,8 @@ export default {
 /* Contenedor principal del carrito */
 .cart-view {
   padding: 30px;
-  font-family: 'Poppins', sans-serif;
+
+  font-family: Nunito, sans-serif;
   background: #f9f9f9;
   min-height: 100vh;
   display: flex;
@@ -110,6 +117,7 @@ export default {
 /* Título del carrito */
 .cart-title {
   text-align: center;
+  font-family: Nunito, sans-serif;
   font-size: 36px;
   color: #333;
   margin-bottom: 30px;

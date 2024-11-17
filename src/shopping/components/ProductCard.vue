@@ -37,7 +37,7 @@ export default {
   methods: {
     addToCart() {
       console.log("Producto en ProductCard antes de emitir:", this.product);
-      const productClone = { ...this.product };
+      const productClone = {...this.product};
       this.$emit("addToCart", productClone);
 
       // Activar animación de agregar al carrito
@@ -48,16 +48,16 @@ export default {
     },
     animateCart() {
       const cartIcon = document.querySelector(".cart-icon");
-      const cartButton = document.querySelector(".product-button");
-
-      // Desplazar el ícono del carrito con animación
-      cartIcon.classList.add("animating");
-
-      setTimeout(() => {
-        cartIcon.classList.remove("animating");
-      }, 1000); // El tiempo de la animación debe coincidir con el de la animación CSS
+      if (cartIcon) {
+        cartIcon.classList.add("animating");
+        setTimeout(() => {
+          cartIcon.classList.remove("animating");
+        }, 1000); // El tiempo de la animación debe coincidir con el de la animación CSS
+      } else {
+        console.error("El elemento .cart-icon no se encontró en el DOM.");
+      }
     }
-  },
+  }
 };
 </script>
 

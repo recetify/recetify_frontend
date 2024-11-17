@@ -49,8 +49,10 @@ export default {
 <style scoped>
 .category-filter {
   display: flex;
+
   flex-direction: column;
   align-items: flex-start;
+  font-family: Nunito, sans-serif;
   margin-bottom: 20px;
 }
 
@@ -59,12 +61,15 @@ export default {
   font-weight: bold;
   color: #444;
   margin-bottom: 5px;
+  font-family: Nunito, sans-serif;
+
 }
 
 .filter-select {
   padding: 10px;
   font-size: 1rem;
   color: #333;
+  font-family: Nunito, sans-serif;
   background-color: #f5f5f5;
   border: 1px solid #ddd;
   border-radius: 8px;
