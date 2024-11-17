@@ -20,4 +20,11 @@ export class AuthenticationService {
     updateUser(id, data) {
         return http.put(`/users/${id}`, data);
     }
+    getCurrentUser() {
+        const userId = localStorage.getItem('userId');
+        if (!userId) {
+            return Promise.reject("User ID not found in local storage");
+        }
+        return http.get(`/users/${userId}`);
+    }
 }

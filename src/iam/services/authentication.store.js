@@ -28,6 +28,8 @@ export const useAuthenticationStore = defineStore( {
                 this.signedIn = true;
                 this.userId = signInResponse.id;
                 this.userEmail = signInResponse.userEmail;
+                localStorage.setItem('userId', signInResponse.id); // Almacenar userId en localStorage
+
                 console.log('state3', signInRequest);
                 localStorage.setItem('token', signInResponse.token);
                 console.log(signInResponse);
@@ -65,6 +67,9 @@ export const useAuthenticationStore = defineStore( {
                     // Usar el store de AuthUser para guardar más información si es necesario
                     const authUserStore = useAuthUserStore();
                     authUserStore.setUserId(user._id); // Guardar el ID de usuario en otro store si lo necesitas
+
+                    localStorage.setItem('userId', user._id); // Almacenar userId en localStorage
+
                     console.log("User ID:", user._id);
                     console.log("isAuthenticated:", useAuthenticationStore().isAuthenticated);
                     // Redirigir a la página de cuenta
@@ -87,6 +92,9 @@ export const useAuthenticationStore = defineStore( {
             authenticationService.signUp(signUpRequest)
                 .then(response => {
                     let signUpResponse = new SignUpResponse(response.data.message);
+
+                    localStorage.setItem('userId', response.data.id); // Almacenar userId en localStorage
+
                     console.log(signUpResponse.message);
                     router.push({name: 'sign-in'});
                     console.log(signUpResponse);

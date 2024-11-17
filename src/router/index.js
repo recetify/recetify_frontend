@@ -12,6 +12,7 @@ import { authenticationGuard } from "@/iam/services/authentication.guard.js";
 import RecipesManagementComponent from "../recipes/pages/recipes-management.component.vue";
 import ShoppingviuwComponent from "../shopping/pages/shoppingviuw.component.vue";
 import CartViewComponent from "../shopping/pages/CartView.vue";
+import comunityCardListComponent from "@/comunityUsersManagement/pages/comunity-card-list.component.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -39,8 +40,8 @@ const router = createRouter({
             meta: { title: 'Carrito', requiresAuth: true },
         },
         {
-            path: '/products',
-            component: productsCardListComponent,
+            path: '/comunity',
+            component: comunityCardListComponent,
             meta: { title: 'Comunidad', requiresAuth: true },
         },
         {

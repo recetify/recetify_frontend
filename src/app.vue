@@ -51,7 +51,7 @@ export default {
         </a>
         <a>
           <!--<router-link :to="{ path: '/comunity-management' }" >-->
-          <router-link :to="{ path: '/products' }" >
+          <router-link :to="{ path: '/comunity' }" >
             <i class="pi pi-users"></i>
             <span class="font-medium">Comunidad</span>
           </router-link>
