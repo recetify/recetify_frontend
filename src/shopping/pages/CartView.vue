@@ -62,6 +62,7 @@ export default {
       cart: {},
       showSuccessModal: false,
       user_id: localStorage.getItem("user_id") || `user_${Math.random().toString(36).substr(2, 9)}_${Date.now()}`
+
     };
   },
   created() {
@@ -80,10 +81,14 @@ export default {
       try {
         await axios.delete(`http://localhost:3000/shopping-carts/user/${this.user_id}/product/${product.product_id}`);
         this.cart.items = this.cart.items.filter(item => item.product_id !== product.product_id);
+        this.updateTotalPrice();
         localStorage.setItem("cart", JSON.stringify(this.cart));
       } catch (error) {
         console.error("Error al eliminar el producto del carrito:", error.response ? error.response.data : error);
       }
+    },
+    updateTotalPrice() {
+      this.cart.total_price = this.cart.items.reduce((total, item) => total + item.price, 0);
     },
     async checkout() {
       // Simular el éxito de la compra sin añadir a la base de datos
