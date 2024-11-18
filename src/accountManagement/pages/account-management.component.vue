@@ -201,7 +201,9 @@ export default {
         <!-- Botón de Logout -->
         <div>
           <!-- Botón para cerrar sesión -->
-          <button @click="logout">Cerrar sesión</button>
+          <pv-button class="botoncito-logout" @click="logout " >
+            LogOut
+          </pv-button>
         </div>
     </div>
   </div>
@@ -276,6 +278,7 @@ export default {
 .button-update {
   display: flex;
   justify-content: flex-end;
+  background: white;
 }
 
 .button-container {
@@ -288,42 +291,116 @@ export default {
   z-index: 1;  /* Asegura que los botones estén por encima de otros elementos */
 }
 
-/* Estilos para el botón de actualización */
+.botoncito, .botoncito-delete, .botoncito-logout {
+  font-family: inherit;
+  text-align: center;
+  height: 2.6em;
+  line-height: 2.5em;
+  overflow: hidden;
+  margin: 20px;
+  font-size: 17px;
+  z-index: 1;
+  border: 2px solid;
+  border-radius: 6px;
+  position: relative;
+  color: white;
+  background: white;
+  margin: 0; /* Sin margen adicional */
+}
+
+
 .botoncito {
-  background-color: #C5D951FF; /* Verde */
-  color: #fff;
-  font-size: 18px;
-  border: none;
-  border-radius: 2em;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  --color: #4caf50;
+  color: var(--color);
+  border-color: var(--color);
+  font-family: Nunito, sans-serif;
+}
+
+.botoncito::before {
+  position: absolute;
+  content: "";
+  background: var(--color);
+  width: 150px;
+  height: 200px;
+  z-index: -1;
+  border-radius: 50%;
+  top: 100%;
+  left: 100%;
+  transition: .3s all;
 }
 
 .botoncito:hover {
-  background-color: #8BB500D6; /* Verde más oscuro */
-  transform: scale(1.1);
+  color: white;
 }
 
-/* Estilos para el botón de eliminación */
+.botoncito:hover::before {
+  top: -30px;
+  left: -30px;
+}
+
+/* Botón Delete */
 .botoncito-delete {
-  background-color: #f44336; /* Rojo */
-  color: #fff;
-  font-size: 18px;
-  border: none;
-  border-radius: 2em;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  --color: #f44336;
+  color: var(--color);
+  border-color: var(--color);
+}
+
+.botoncito-delete::before {
+  position: absolute;
+  content: "";
+  background: red;
+  width: 150px;
+  height: 200px;
+  z-index: -1;
+  border-radius: 50%;
+  top: 100%;
+  left: 100%;
+  transition: .3s all;
 }
 
 .botoncito-delete:hover {
-  background-color: #d32f2f; /* Rojo más oscuro */
-  transform: scale(1.1);
+  color: white;
 }
 
-.botoncito-delete:hover {
-  background-color: #d32f2f; /* Rojo más oscuro al pasar el mouse */
-  transform: scale(1.1);
+.botoncito-delete:hover::before {
+  top: -30px;
+  left: -30px;
 }
+
+
+.botoncito-logout {
+  --color: gray;
+  color: var(--color);
+  border-color: var(--color);
+}
+
+.botoncito-logout::before {
+  position: absolute;
+  content: "";
+  background: gray;
+  width: 150px;
+  height: 200px;
+  z-index: -1;
+  border-radius: 50%;
+  top: 100%;
+  left: 100%;
+  transition: .3s all;
+}
+
+.botoncito-logout:hover {
+  color: white;
+}
+
+.botoncito-logout:hover::before {
+  top: -30px;
+  left: -30px;
+}
+
+
+
+
+
+
 
 /* Estilo para los componentes de confirmación de actualización y eliminación */
 .confirmation-update-button,
