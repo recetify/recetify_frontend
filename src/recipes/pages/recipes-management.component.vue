@@ -187,7 +187,7 @@ export default {
 
 /* Estilos para botones */
 .add-recipe-button, .save-button, .close-button, .edit-button, .delete-button {
-  padding: 0.8rem 1.5rem;
+
   font-size: 1rem;
   border-radius: 0.5rem;
   border: none;
