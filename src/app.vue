@@ -37,14 +37,14 @@ export default {
         </a>
         <a>
           <!--<router-link :to="{ path: '/shop-management' }" >-->
-          <router-link :to="{ path: '/exercises' }" >
+          <router-link :to="{ path: '/shopping' }" >
             <i class="pi pi-shopping-cart"></i>
             <span class="font-medium">Compras</span>
           </router-link>
         </a>
         <a>
           <!--<router-link :to="{ path: '/recipes-management' }" >-->
-          <router-link :to="{ path: '/nutritions' }" >
+          <router-link :to="{ path: '/recipes' }" >
             <i class="pi pi-apple"></i>
             <span class="font-medium">Recetas</span>
           </router-link>

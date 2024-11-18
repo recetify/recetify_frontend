@@ -1,11 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import PageNotFoundComponent from "@/public/pages/page-not-found.component.vue";
 import accountManagementComponent from "@/accountManagement/pages/account-management.component.vue";
-import exercisesCardListComponent from "@/rutineManagement/pages/exercises-card-list.component.vue";
-import productsCardListComponent from "@/productsManagement/pages/products-card-list.component.vue";
-import subscriptionManagementComponent from "@/subscription/pages/subscription-management.component.vue";
-import paymentGatewayComponent from "@/subscription/pages/payment-gateway.component.vue";
-import nutritionsCardListComponent from "@/nutritionManagement/pages/nutritions-card-list.component.vue";
+
 import SignInComponent from "@/iam/pages/sign-in.component.vue";
 import SignUpComponent from "@/iam/pages/sign-up.component.vue";
 import { authenticationGuard } from "@/iam/services/authentication.guard.js";
@@ -24,12 +20,12 @@ const router = createRouter({
             meta: { title: 'Mi Cuenta', requiresAuth: true },
         },
         {
-            path: '/exercises',
+            path: '/shopping',
             component: ShoppingviuwComponent,
             meta: { title: 'Compras', requiresAuth: true },
         },
         {
-            path: '/nutritions',
+            path: '/recipes',
             component: RecipesManagementComponent,
             meta: { title: 'Recetas', requiresAuth: true },
         },

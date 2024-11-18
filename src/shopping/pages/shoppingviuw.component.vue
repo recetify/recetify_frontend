@@ -122,6 +122,14 @@ export default {
   padding: 1rem;
 }
 
+.shopping-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align:center;
+}
+
 .product-grid .product-card {
   width: 100%;
   height: auto;
