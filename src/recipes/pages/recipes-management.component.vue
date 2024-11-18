@@ -79,10 +79,14 @@ export default {
   }
 };
 </script>
+
 <template>
   <div class="recipes-page">
     <h1 class="title">Recetas</h1>
-
+    <pv-divider class="divider"></pv-divider>
+    <p class="description-recipes">
+      Bienvenido a la sección de recetas. Aquí puedes ver, añadir, editar y eliminar recetas! Comparte tus recetas favoritas con la comunidad.
+    </p>
     <!-- Barra de búsqueda -->
     <div class="search-bar">
       <input type="text" v-model="searchQuery" placeholder="Buscar receta..." />
@@ -148,12 +152,21 @@ export default {
 
 <style scoped>
 /* Estilos generales */
-/* Estilos generales */
 .recipes-page {
   text-align: center;
-  background-color: #f0f5e9;
   padding: 2rem;
   font-family: Nunito, sans-serif;
+}
+
+.divider {
+  margin-top: 1em;
+}
+.description-recipes {
+  text-align: center;
+  font-size: 1.2em;
+  color: #7E8940;
+  font-family: Nunito, sans-serif;
+  margin-bottom: 2rem;
 }
 
 .title {
@@ -167,7 +180,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   font-family: Nunito, sans-serif;
 }
 
@@ -187,7 +200,6 @@ export default {
 
 /* Estilos para botones */
 .add-recipe-button, .save-button, .close-button, .edit-button, .delete-button {
-
   font-size: 1rem;
   border-radius: 0.5rem;
   border: none;
@@ -210,27 +222,28 @@ export default {
 
 /* Nuevos efectos para el botón Añadir receta */
 .add-recipe-button {
-  padding: 1em 2em;
+  padding: 16px;
   font-family: Nunito, sans-serif;
   border: none;
-  border-radius: 5px;
+  border-radius: 30px;
   font-weight: bold;
-  letter-spacing: 5px;
+  letter-spacing: 2px;
   text-transform: uppercase;
   cursor: pointer;
-  color: #4caf50;;
+  color: #ffffff;
+  background: #7E8940;
   transition: all 1000ms;
   font-size: 15px;
   position: relative;
   overflow: hidden;
-  outline: 2px solid #4caf50;;
+  outline: 2px solid #7E8940;
 }
 
 .add-recipe-button:hover {
   color: #ffffff;
   transform: scale(1.1);
-  outline: 2px solid #4caf50;;
-  box-shadow: 4px 5px 17px -4px #4caf50;;
+  outline: 2px solid #5d6531;
+  box-shadow: 4px 5px 17px -4px #5d6531;
 }
 
 .add-recipe-button::before {
@@ -241,7 +254,7 @@ export default {
   top: 0;
   width: 0;
   height: 100%;
-  background-color: #4caf50;;
+  background-color: #5d6531;
   transform: skewX(45deg);
   z-index: -1;
   transition: width 1000ms;
@@ -258,6 +271,8 @@ export default {
   height: 2.6em;
   line-height: 2.5em;
   overflow: hidden;
+  font-weight: bold;
+
   margin: 20px;
   font-size: 17px;
   z-index: 1;
@@ -270,10 +285,11 @@ export default {
 
 /* Botón Editar */
 .edit-button {
-  --color: #ff9800;
+  --color: #737a47;
   color: var(--color);
   border-color: var(--color);
   font-family: Nunito, sans-serif;
+  background-color: rgb(255, 255, 255);
 }
 
 .edit-button::before {
@@ -300,9 +316,11 @@ export default {
 
 /* Botón Eliminar */
 .delete-button {
-  --color: #f44336;
+  background-color: rgb(250, 224, 224);
+  --color: #8c3232;
   color: var(--color);
   border-color: var(--color);
+  font-weight: bold;
 }
 
 .delete-button::before {
@@ -316,9 +334,11 @@ export default {
   top: 100%;
   left: 100%;
   transition: .3s all;
+  font-weight: bold;
 }
 
 .delete-button:hover {
+  font-weight: bold;
   color: white;
 }
 
@@ -328,14 +348,13 @@ export default {
 }
 
 .action-buttons {
+  font-weight: bold;
   display: flex;
-  gap: 2px; /* Espacio entre los botones */
+  gap: 7px; /* Espacio entre los botones */
   justify-content: center; /* Opcional: centra los botones dentro de la tarjeta */
   margin-top: 1rem; /* Espacio superior */
+  flex-wrap: wrap; /* Permitir que los botones se ajusten dentro de la tarjeta */
 }
-
-
-
 
 .close-button {
   --color: #ff6b6b;
@@ -393,11 +412,9 @@ export default {
   transform: scale(.98);
 }
 
-
 .save-button {
   --color: #00A97F;
   --color2: rgb(10, 25, 30);
-  padding: 0.8em 1.75em;
   background-color: transparent;
   border-radius: 6px;
   border: .3px solid var(--color);
@@ -455,6 +472,9 @@ export default {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 1.5rem;
+  padding: 2rem;
+  justify-content: center; /* Centrar las tarjetas */
+  font-family: Nunito, sans-serif;
 }
 
 .flip-card {
@@ -485,7 +505,6 @@ export default {
   backface-visibility: hidden;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   padding: 1rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -493,12 +512,13 @@ export default {
 }
 
 .flip-card-front {
-  background-color: #fff;
+  background-color: #dbdfc2; /* Fondo verde */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.27);
 }
 
 .recipe-image {
   width: 100%;
-  height: 150px;
+  height: 100%;
   object-fit: cover;
   border-radius: 0.5rem;
 }
@@ -506,23 +526,23 @@ export default {
 .recipe-title {
   font-size: 1.2rem;
   font-weight: bold;
-  color: #666633;
+  color: #505930; /* Texto blanco */
   margin-top: 0.5rem;
 }
 
 .flip-card-back {
-  background-color: #f8f8f8;
+  background-color: #a1ac62; /* Fondo verde oscuro */
   transform: rotateY(180deg);
 }
 
 .flip-card-back h3 {
   font-size: 1.2rem;
-  color: #666633;
+  color: #ffffff; /* Texto blanco */
 }
 
 .flip-card-back p {
   font-size: 0.9rem;
-  color: #333;
+  color: #ffffff; /* Texto blanco */
   margin: 0.5rem 0;
 }
 
@@ -630,5 +650,4 @@ export default {
     transform: scale(1);
   }
 }
-
 </style>

@@ -81,7 +81,7 @@ export default {
 /* Imagen del producto */
 .product-image {
   width: 100%;
-  height: 150px;
+  height: 100%;
   object-fit: cover;
   border-radius: 0.5rem;
   margin-bottom: 1rem;
@@ -90,30 +90,27 @@ export default {
 /* Detalles del producto */
 .product-details {
   text-align: center;
-  padding: 0.5rem 0;
 }
 
 /* Título del producto */
 .product-title {
   font-size: 1.2rem;
   font-weight: bold;
-  color: #666633;
-  margin-bottom: 0.5rem;
+  color: #53532e;
 }
 
 /* Precio del producto */
 .product-price {
   font-size: 1rem;
-  color: #777;
-  margin-bottom: 0.5rem;
+  color: #505930;
 }
 
 /* Efecto de animación para el botón con icono de carrito */
 .button {
   height: 60px;
   width: 200px;
-  background-color: #8bc34a; /* Verde Lima claro */
-  border: 2px solid #7cb342; /* Verde Lima más oscuro */
+  background-color: #737e38; /* Verde Lima claro */
+  border: 2px solid #737e38; /* Verde Lima más oscuro */
   color: #fff;
   transition: .6s;
   font-size: 15px;
@@ -140,7 +137,7 @@ export default {
 
 .button:hover {
   width: 60px;
-  background-color:#7cb342;
+  background-color: #5b6333;
   box-shadow: 20px 20px 96px #bebebe,-20px -20px 96px #ffffff;
 }
 

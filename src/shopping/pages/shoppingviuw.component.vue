@@ -1,21 +1,3 @@
-<template>
-  <div class="shopping-view">
-    <h1 class="title">Compras</h1>
-    <CategoryFilter @categorySelected="filterProducts" />
-    <div class="product-grid">
-      <ProductCard
-          v-for="product in filteredProducts"
-          :key="product.id"
-          :product="product"
-          @addToCart="addToCart"
-      />
-    </div>
-    <button @click="goToCart" class="cart-icon-button">
-      <i class="fas fa-shopping-cart"></i>
-    </button>
-  </div>
-</template>
-
 <script>
 import CategoryFilter from "../components/CategoryFilter.vue";
 import ProductCard from "../components/ProductCard.vue";
@@ -111,15 +93,32 @@ export default {
   }
 };
 </script>
+
+<template>
+  <div class="shopping-view">
+    <h1 class="title">Compras</h1>
+    <CategoryFilter @categorySelected="filterProducts" />
+    <div class="product-grid">
+      <ProductCard
+          v-for="product in filteredProducts"
+          :key="product.id"
+          :product="product"
+          @addToCart="addToCart"
+      />
+    </div>
+    <button @click="goToCart" class="cart-icon-button">
+      <i class="fas fa-shopping-cart"></i>
+    </button>
+  </div>
+</template>
+
 <style scoped>
+/* General styles */
 .title {
   font-family: Nunito, sans-serif;
-}
-.product-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
-  padding: 1rem;
+  color: #666633;
+  font-size: 2rem;
+  margin-bottom: 1rem;
 }
 
 .shopping-view {
@@ -127,41 +126,49 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-align:center;
+  text-align: center;
+  padding: 2rem;
+  font-family: Nunito, sans-serif;
 }
 
-.product-grid .product-card {
+/* Product grid styles */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.product-card {
+  background-color: #dbdfc2;
   width: 100%;
   height: auto;
   display: flex;
   flex-direction: column;
   font-family: Nunito, sans-serif;
-  background-color: white;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  border: 1px solid #ddd;
   border-radius: 8px;
   overflow: hidden;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.product-grid .product-card:hover {
+.product-card:hover {
   transform: scale(1.05);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-.product-grid .product-card img {
+.product-card img {
   width: 100%;
   height: auto;
   object-fit: cover;
 }
 
-
-
+/* Button styles */
 .cart-icon-button {
   position: fixed;
   top: 90px;
   right: 20px;
-  background-color: #4CAF50;
+  background-color: #6f7a3c;
   color: white;
   border: none;
   border-radius: 50%;
@@ -177,9 +184,10 @@ export default {
 }
 
 .cart-icon-button:hover {
-  background-color: #45a049;
+  background-color: #505930;
 }
 
+/* Responsive styles */
 @media (max-width: 1200px) {
   .cart-icon-button {
     top: 85px;

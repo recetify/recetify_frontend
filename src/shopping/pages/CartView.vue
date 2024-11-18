@@ -154,7 +154,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   background-color: #fff;
-  border: 2px solid #4CAF50; /* Añadir borde de color verde */
+  border: 2px solid #505930; /* Añadir borde de color verde */
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -170,7 +170,7 @@ export default {
 
 /* Botón de Pagar */
 .pay-button {
-  background-color: #4CAF50; /* Verde */
+  background-color: #505930; /* Verde */
   border: none;
   color: white;
   padding: 15px 30px; /* Aumentar el padding */
@@ -187,7 +187,7 @@ export default {
 }
 
 .pay-button:hover {
-  background-color: #45a049; /* Verde más oscuro */
+  background-color: #606a2c; /* Verde más oscuro */
   transform: scale(1.1); /* Aumentar el efecto de escala */
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Aumentar la sombra al hacer hover */
 }
@@ -209,7 +209,7 @@ export default {
   margin-left: 10px;
 }
 .back-button {
-  background-color: #4CAF50; /* Verde */
+  background-color: #a1ac62; /* Verde */
   color: white;
   padding: 10px 20px;
   border: none;
@@ -225,7 +225,7 @@ export default {
 }
 
 .back-button:hover {
-  background-color: #388E3C; /* Verde más oscuro */
+  background-color: #505930; /* Verde más oscuro */
   transform: translateY(-5px); /* Mover hacia arriba */
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Aumentar la sombra */
 }
@@ -254,7 +254,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgb(0, 128, 0);
+  background-color: rgb(115, 126, 56);
   border: none;
   color: white;
   font-weight: 600;
@@ -329,7 +329,7 @@ export default {
 .modal-content .close-btn {
   margin-top: 20px;
   padding: 12px 20px;
-  background-color: #4CAF50;
+  background-color: #505930;
   color: white;
   border: none;
   border-radius: 50px;
@@ -341,7 +341,7 @@ export default {
   align-items: center;
 }
 .modal-content .close-btn:hover {
-  background-color: #388E3C;
+  background-color: #505930;
 }
 .modal-content .close-btn svg {
   fill: white;
